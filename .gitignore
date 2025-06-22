@@ -1,4 +1,4 @@
-# CMake Éú³ÉµÄ¹¹½¨Ä¿Â¼
+# CMake ç”Ÿæˆçš„æ„å»ºç›®å½•
 /build/
 /out/
 /CMakeFiles/
@@ -6,13 +6,14 @@
 /cmake_install.cmake
 /Makefile
 /install_manifest.txt
+CMakeUserPresets.json
 
-# Ninja ¹¹½¨ÎÄ¼ş
+# Ninja æ„å»ºæ–‡ä»¶
 /build.ninja
 /.ninja_deps
 /.ninja_log
 
-# Qt Creator/Qt Design Studio/CLion/VSCodeµÈIDEÎÄ¼ş
+# Qt Creator/Qt Design Studio/CLion/VSCodeç­‰IDEæ–‡ä»¶
 *.user
 *.user.*
 *.pro.user
@@ -28,7 +29,7 @@
 *.code-workspace
 .vs
 
-# Visual StudioÏà¹Ø
+# Visual Studioç›¸å…³
 *.VC.db
 *.VC.VC.opendb
 *.sdf
@@ -38,7 +39,7 @@
 *.userosscache
 *.sln.docstates
 
-# ±àÒëÊä³ö
+# ç¼–è¯‘è¾“å‡º
 *.o
 *.obj
 *.so
@@ -57,11 +58,11 @@
 *.pdb
 *.idb
 
-# ×ÊÔ´±àÒë»º´æ
+# èµ„æºç¼–è¯‘ç¼“å­˜
 *.qrc.depends
 *.qrc.cpp
 
-# ÁÙÊ±ÎÄ¼ş
+# ä¸´æ—¶æ–‡ä»¶
 *~
 *.tmp
 *.log
@@ -74,7 +75,7 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# PythonĞéÄâ»·¾³£¨ÈçÓĞ£©
+# Pythonè™šæ‹Ÿç¯å¢ƒï¼ˆå¦‚æœ‰ï¼‰
 venv/
 ENV/
 env/
