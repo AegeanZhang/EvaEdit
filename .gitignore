@@ -1,0 +1,80 @@
+# CMake 生成的构建目录
+/build/
+/out/
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/Makefile
+/install_manifest.txt
+
+# Ninja 构建文件
+/build.ninja
+/.ninja_deps
+/.ninja_log
+
+# Qt Creator/Qt Design Studio/CLion/VSCode等IDE文件
+*.user
+*.user.*
+*.pro.user
+*.qbs.user
+*.creator.*
+*.autosave
+*.swp
+*.swo
+*.kate-swp
+*.directory
+.vscode/
+.idea/
+*.code-workspace
+.vs
+
+# Visual Studio相关
+*.VC.db
+*.VC.VC.opendb
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# 编译输出
+*.o
+*.obj
+*.so
+*.a
+*.lib
+*.dll
+*.exe
+*.app
+*.dSYM/
+*.moc
+*.rcc
+*.qrc
+*.qmlc
+*.jsc
+*.ilk
+*.pdb
+*.idb
+
+# 资源编译缓存
+*.qrc.depends
+*.qrc.cpp
+
+# 临时文件
+*~
+*.tmp
+*.log
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python虚拟环境（如有）
+venv/
+ENV/
+env/
