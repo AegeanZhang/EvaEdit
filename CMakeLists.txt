@@ -23,6 +23,10 @@ qt_add_qml_module(EvaEdit
     VERSION 1.0
     QML_FILES
         qml/Main.qml
+        qml/Colors.qml
+        qml/EMenuBar.qml
+    RESOURCES
+        qml/qmldir
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

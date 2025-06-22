@@ -2,13 +2,17 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import EvaEdit
+
 ApplicationWindow {
     width: 640
     height: 480
     visible: true
+    color: Colors.background
+    flags: Qt.Window | Qt.FramelessWindowHint
     title: qsTr("Hello World")
 
-    menuBar: MenuBar {
+    menuBar: EMenuBar {
         Menu {
             title: qsTr("文件")
             Action { text: qsTr("新建") }
