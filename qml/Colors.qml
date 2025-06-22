@@ -5,8 +5,8 @@ pragma Singleton
 QtObject {
     readonly property color background: "#292828"
     readonly property color surface1: "#171819"
-    readonly property color surface2: "#090A0C"
-    readonly property color text: "#D4BE98"
+    readonly property color surface2: "#1F1F1F"
+    readonly property color text: "#D9D9D6"
     readonly property color textFile: "#E1D2B7"
     readonly property color disabledText: "#2C313A"
     readonly property color selection: "#4B4A4A"

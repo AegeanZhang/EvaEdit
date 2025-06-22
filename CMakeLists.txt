@@ -25,6 +25,11 @@ qt_add_qml_module(EvaEdit
         qml/Main.qml
         qml/Colors.qml
         qml/EMenuBar.qml
+        qml/EMenu.qml
+        qml/WindowDragHandler.qml
+        qml/EFileView.qml
+        qml/EEditor.qml
+        qml/ESidebar.qml
     RESOURCES
         qml/qmldir
 )
