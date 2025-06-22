@@ -49,16 +49,6 @@ ApplicationWindow {
         }
     }
 
-    ToolBar {
-        id: toolBar
-        RowLayout {
-            anchors.fill: parent
-            ToolButton { text: qsTr("新建") }
-            ToolButton { text: qsTr("打开") }
-            ToolButton { text: qsTr("保存") }
-        }
-    }
-
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -129,18 +119,6 @@ ApplicationWindow {
             }
         }
     }
-
-    // 主内容区
-    /* Rectangle {
-        id: mainContent
-        color: "#f0f0f0"
-        anchors {
-            top: toolBar.bottom
-            left: parent.left
-            right: parent.right
-            bottom: statusBar.top
-        }
-    } */
 
     // 状态栏
     Rectangle {

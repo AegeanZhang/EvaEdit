@@ -54,8 +54,9 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             verticalAlignment: Text.AlignVCenter
 
-                            color: (root.currentLineNumber === parent.index)
-                                    ? Colors.iconIndicator : Qt.darker(Colors.text, 2)
+                            /*color: (root.currentLineNumber === parent.index)
+                                    ? Colors.iconIndicator : Qt.darker(Colors.text, 2)*/
+                            color: Colors.text
                             font: textArea.font
                         }
                         Rectangle {
