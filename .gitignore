@@ -28,6 +28,7 @@ CMakeUserPresets.json
 .idea/
 *.code-workspace
 .vs
+.qmlls.ini
 
 # Visual Studio相关
 *.VC.db

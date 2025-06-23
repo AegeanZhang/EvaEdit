@@ -50,7 +50,11 @@ ApplicationWindow {
     }
 
     RowLayout {
-        anchors.fill: parent
+        //anchors.fill: parent
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: statusBar.top
         spacing: 0
 
         // Stores the buttons that navigate the application.
@@ -112,6 +116,7 @@ ApplicationWindow {
             // The main view that contains the editor.
             EEditor {
                 id: editor
+                color: Colors.surface1
                 showLineNumbers: root.showLineNumbers
                 currentFilePath: root.currentFilePath
                 SplitView.fillWidth: true
@@ -124,7 +129,7 @@ ApplicationWindow {
     Rectangle {
         id: statusBar
         height: 24
-        color: "#e0e0e0"
+        color: Colors.background
         anchors {
             left: parent.left
             right: parent.right
@@ -134,6 +139,7 @@ ApplicationWindow {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 8
+            color: Colors.text
             text: qsTr("就绪")
         }
     }

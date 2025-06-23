@@ -126,8 +126,8 @@ Rectangle {
 
                 // Grab the current line number from the C++ interface.
                 onCursorPositionChanged: {
-                    root.currentLineNumber = FileSystemModel.currentLineNumber(
-                        textArea.textDocument, textArea.cursorPosition)
+                    /*root.currentLineNumber = FileSystemModel.currentLineNumber(
+                        textArea.textDocument, textArea.cursorPosition)*/
                 }
 
                 color: Colors.textFile

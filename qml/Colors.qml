@@ -3,9 +3,12 @@ import QtQuick
 pragma Singleton
 
 QtObject {
+    // 主背景颜色，包括菜单等
     readonly property color background: "#292828"
     readonly property color surface1: "#171819"
+    // 侧边栏和编辑器背景颜色
     readonly property color surface2: "#1F1F1F"
+    // 字体的颜色，浅灰色
     readonly property color text: "#D9D9D6"
     readonly property color textFile: "#E1D2B7"
     readonly property color disabledText: "#2C313A"

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(EvaEdit VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(QT_QML_GENERATE_QMLLS_INI ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
@@ -32,6 +33,10 @@ qt_add_qml_module(EvaEdit
         qml/ESidebar.qml
     RESOURCES
         qml/qmldir
+        resources/icons/light_bulb.svg
+        resources/icons/read.svg
+        resources/icons/globe.svg
+        resources/icons/info_sign.svg
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

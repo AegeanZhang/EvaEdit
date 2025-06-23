@@ -83,7 +83,7 @@ Rectangle {
             // Shows help text when clicked.
             SidebarEntry {
                 id: infoTab
-                icon.source: "../icons/light_bulb.svg"
+                icon.source: "../resources/icons/light_bulb.svg"
                 checkable: true
                 checked: true
             }
@@ -92,7 +92,7 @@ Rectangle {
             SidebarEntry {
                 id: filesystemTab
 
-                icon.source: "../icons/read.svg"
+                icon.source: "../resources/icons/read.svg"
                 checkable: true
             }
         }
@@ -115,7 +115,7 @@ Rectangle {
             // Opens the Qt website in the system's web browser.
             SidebarEntry {
                 id: qtWebsiteButton
-                icon.source: "../icons/globe.svg"
+                icon.source: "../resources/icons/globe.svg"
                 checkable: false
                 onClicked: Qt.openUrlExternally("https://www.qt.io/")
             }
@@ -124,7 +124,7 @@ Rectangle {
             SidebarEntry {
                 id: aboutQtButton
 
-                icon.source: "../icons/info_sign.svg"
+                icon.source: "../resources/icons/info_sign.svg"
                 checkable: false
                 onClicked: aboutQtWindow.visible = !aboutQtWindow.visible
             }
