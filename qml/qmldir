@@ -3,4 +3,5 @@ module EvaEdit
 Main 1.0 Main.qml
 singleton Colors 1.0 Colors.qml
 EMenuBar 1.0 EMenuBar.qml
+EEditor 1.0 EEditor.qml
 WindowDragHandler 1.0 WindowDragHandler.qml

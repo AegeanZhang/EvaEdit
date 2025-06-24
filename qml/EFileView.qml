@@ -18,8 +18,8 @@ Rectangle {
         property int lastIndex: -1
 
         anchors.fill: parent
-        /*model: FileSystemModel
-        rootIndex: FileSystemModel.rootIndex*/
+        model: FileSystemModel
+        rootIndex: FileSystemModel.rootIndex
         boundsBehavior: Flickable.StopAtBounds
         boundsMovement: Flickable.StopAtBounds
         clip: true
@@ -46,8 +46,8 @@ Rectangle {
                 x: treeDelegate.leftMargin + (treeDelegate.depth * treeDelegate.indentation)
                 anchors.verticalCenter: parent.verticalCenter
                 source: treeDelegate.hasChildren ? (treeDelegate.expanded
-                            ? "../icons/folder_open.svg" : "../icons/folder_closed.svg")
-                        : "../icons/generic_file.svg"
+                            ? "../resources/icons/folder_open.svg" : "../resources/icons/folder_closed.svg")
+                        : "../resources/icons/generic_file.svg"
                 sourceSize.width: 20
                 sourceSize.height: 20
                 fillMode: Image.PreserveAspectFit

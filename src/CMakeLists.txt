@@ -1,4 +1,4 @@
-#add_subdirectory(ui)
+add_subdirectory(model)
 
 set(SRC_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp

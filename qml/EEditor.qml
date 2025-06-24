@@ -11,6 +11,14 @@ Rectangle {
 
     required property string currentFilePath
     required property bool showLineNumbers
+    property alias text: textArea
+    property int currentLineNumber: -1
+    property int rowHeight: Math.ceil(fontMetrics.lineSpacing)
+
+    color: Colors.background
+
+    onWidthChanged: textArea.update()
+    onHeightChanged: textArea.update()
 
     RowLayout {
         anchors.fill: parent
@@ -35,9 +43,9 @@ Rectangle {
                 Repeater {
                     id: repeatedLineNumbers
 
-                    /*model: LineNumberModel {
+                    model: LineNumberModel {
                         lineCount: textArea.text !== "" ? textArea.lineCount : 0
-                    }*/
+                    }
 
                     delegate: Item {
                         required property int index
@@ -54,9 +62,9 @@ Rectangle {
                             horizontalAlignment: Text.AlignLeft
                             verticalAlignment: Text.AlignVCenter
 
-                            /*color: (root.currentLineNumber === parent.index)
-                                    ? Colors.iconIndicator : Qt.darker(Colors.text, 2)*/
-                            color: Colors.text
+                            color: (root.currentLineNumber === parent.index)
+                                    ? Colors.iconIndicator : Qt.darker(Colors.text, 2)
+                            //color: Colors.text
                             font: textArea.font
                         }
                         Rectangle {
@@ -121,13 +129,13 @@ Rectangle {
                 topPadding: 0
                 leftPadding: 10
 
-                //text: FileSystemModel.readFile(root.currentFilePath)
+                text: FileSystemModel.readFile(root.currentFilePath)
                 tabStopDistance: fontMetrics.averageCharacterWidth * 4
 
                 // Grab the current line number from the C++ interface.
                 onCursorPositionChanged: {
-                    /*root.currentLineNumber = FileSystemModel.currentLineNumber(
-                        textArea.textDocument, textArea.cursorPosition)*/
+                    root.currentLineNumber = FileSystemModel.currentLineNumber(
+                        textArea.textDocument, textArea.cursorPosition)
                 }
 
                 color: Colors.textFile
