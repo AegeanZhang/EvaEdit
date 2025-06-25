@@ -5,3 +5,4 @@ singleton Colors 1.0 Colors.qml
 EMenuBar 1.0 EMenuBar.qml
 EEditor 1.0 EEditor.qml
 WindowDragHandler 1.0 WindowDragHandler.qml
+ResizeButton 1.0 ResizeButton.qml

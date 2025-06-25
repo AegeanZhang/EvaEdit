@@ -130,6 +130,7 @@ ApplicationWindow {
         id: statusBar
         height: 24
         color: Colors.background
+        //color: "#FFFFFF"
         anchors {
             left: parent.left
             right: parent.right
@@ -142,5 +143,11 @@ ApplicationWindow {
             color: Colors.text
             text: qsTr("就绪")
         }
+    ResizeButton {
+        resizeWindow: root
     }
+    }
+
+
+
 }

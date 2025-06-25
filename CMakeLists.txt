@@ -37,6 +37,7 @@ qt_add_qml_module(EvaEdit
         qml/EFileView.qml
         qml/EEditor.qml
         qml/ESidebar.qml
+        qml/ResizeButton.qml
     RESOURCES
         qml/qmldir
         resources/icons/light_bulb.svg
@@ -46,6 +47,7 @@ qt_add_qml_module(EvaEdit
         resources/icons/folder_closed.svg
         resources/icons/folder_open.svg
         resources/icons/generic_file.svg
+        resources/icons/resize.svg
     SOURCES
         #${MODEL_SOURCES}
         src/model/FileSystemModel.h
