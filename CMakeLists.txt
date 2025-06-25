@@ -10,6 +10,7 @@ find_package(Qt6 REQUIRED COMPONENTS Quick)
 qt_standard_project_setup(REQUIRES 6.8)
 
 add_subdirectory(src)
+add_subdirectory(qml)
 
 set(PROJECT_SOURCES
     ${SRC_SOURCES}
@@ -29,15 +30,7 @@ qt_add_qml_module(EvaEdit
     URI EvaEdit
     VERSION 1.0
     QML_FILES
-        qml/Main.qml
-        qml/Colors.qml
-        qml/EMenuBar.qml
-        qml/EMenu.qml
-        qml/WindowDragHandler.qml
-        qml/EFileView.qml
-        qml/EEditor.qml
-        qml/ESidebar.qml
-        qml/ResizeButton.qml
+        ${QML_FILES}
     RESOURCES
         qml/qmldir
         resources/icons/light_bulb.svg

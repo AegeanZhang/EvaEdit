@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
+import Qt.labs.platform as Platform
 
 import EvaEdit
 
@@ -22,6 +23,24 @@ ApplicationWindow {
     flags: Qt.Window | Qt.FramelessWindowHint
     title: qsTr("EvaEdit")
 
+    // 添加文件夹选择对话框
+    Platform.FolderDialog {
+        id: folderDialog
+        title: qsTr("选择文件夹")
+        folder: Platform.StandardPaths.writableLocation(Platform.StandardPaths.DocumentsLocation)
+        
+        onAccepted: {
+            // 将选中的文件夹设置为文件浏览器的根目录
+            const folderPath = folderDialog.folder.toString();
+            // 将 file:/// 前缀移除 (如果需要)
+            const cleanPath = folderPath.replace(/^(file:\/{2,3})/, "");
+            FileSystemModel.setDirectory(cleanPath);
+            
+            // 切换到文件浏览标签页
+            sidebar.currentTabIndex = 1;
+        }
+    }
+
     function getInfoText() : string {
         /* let out = root.currentFilePath
         if (!out)
@@ -39,6 +58,12 @@ ApplicationWindow {
             Action { text: qsTr("新建") }
             Action { text: qsTr("打开") }
             Action { text: qsTr("保存") }
+            Action { text: qsTr("另存为") }
+            MenuSeparator {}
+            Action { 
+                text: qsTr("打开目录") 
+                onTriggered: folderDialog.open()
+            }
             MenuSeparator {}
             Action { text: qsTr("退出"); onTriggered: Qt.quit() }
         }
@@ -114,13 +139,24 @@ ApplicationWindow {
             }
 
             // The main view that contains the editor.
-            EEditor {
+            /*EEditor {
                 id: editor
                 color: Colors.surface1
                 showLineNumbers: root.showLineNumbers
                 currentFilePath: root.currentFilePath
                 SplitView.fillWidth: true
                 SplitView.fillHeight: true
+            }*/
+            // 替换单个编辑器为标签式编辑器
+            ETabView {
+                id: tabView
+                showLineNumbers: root.showLineNumbers
+                SplitView.fillWidth: true
+                SplitView.fillHeight: true
+                
+                onFilePathChanged: function(filePath) {
+                    root.currentFilePath = filePath;
+                }
             }
         }
     }

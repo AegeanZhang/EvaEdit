@@ -54,6 +54,18 @@ int FileSystemModel::currentLineNumber(QQuickTextDocument* textDocument, int cur
     return -1;
 }
 
+void FileSystemModel::setDirectory(const QString& path)
+{
+    QDir dir(path);
+    if (dir.makeAbsolute()) {
+        setRootPath(dir.path());
+        setRootIndex(QFileSystemModel::index(dir.path(), 0));
+    } else {
+        setRootPath(getDefaultRootDir());
+        setRootIndex(QFileSystemModel::index(getDefaultRootDir(), 0));
+    }
+}
+
 int FileSystemModel::columnCount(const QModelIndex& parent) const
 {
     Q_UNUSED(parent)

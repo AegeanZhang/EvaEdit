@@ -12,12 +12,17 @@ Rectangle {
     signal fileClicked(string filePath)
     property alias rootIndex: fileSystemTreeView.rootIndex
 
+    // 添加内边距属性，可以方便调整
+    property int padding: 5
+
     TreeView {
         id: fileSystemTreeView
 
         property int lastIndex: -1
 
         anchors.fill: parent
+        anchors.margins: root.padding
+
         model: FileSystemModel
         rootIndex: FileSystemModel.rootIndex
         boundsBehavior: Flickable.StopAtBounds
