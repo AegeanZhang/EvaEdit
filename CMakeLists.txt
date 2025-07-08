@@ -24,6 +24,7 @@ target_include_directories(EvaEdit
     PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/src/model
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/config
 )
 
 qt_add_qml_module(EvaEdit
@@ -42,11 +43,12 @@ qt_add_qml_module(EvaEdit
         resources/icons/generic_file.svg
         resources/icons/resize.svg
     SOURCES
-        #${MODEL_SOURCES}
-        src/model/FileSystemModel.h
-        src/model/FileSystemModel.cpp
-        src/model/LineNumberModel.h
-        src/model/LineNumberModel.cpp
+        ${RELATIVE_MODEL_SOURCES}
+        #src/model/FileSystemModel.h
+        #src/model/FileSystemModel.cpp
+        #src/model/LineNumberModel.h
+        #src/model/LineNumberModel.cpp
+        ${RELATIVE_CONFIG_SOURCES}
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

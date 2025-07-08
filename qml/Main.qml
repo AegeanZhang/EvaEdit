@@ -133,7 +133,10 @@ ApplicationWindow {
                     EFileView {
                         id: fileSystemView
                         color: Colors.surface1
-                        onFileClicked: path => root.currentFilePath = path
+                        onFileClicked: path => {
+                            root.currentFilePath = path;
+                            tabView.addNewTab(path);
+                        }
                     }
                 }
             }

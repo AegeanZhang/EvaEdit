@@ -18,9 +18,5 @@ int main(int argc, char *argv[])
 
     engine.loadFromModule("EvaEdit", "Main");
 
-    /*engine.loadFromModule("FileSystemModule", "Main");
-    if (engine.rootObjects().isEmpty())
-        return -1;*/
-
     return app.exec();
 }
