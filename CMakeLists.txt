@@ -44,11 +44,8 @@ qt_add_qml_module(EvaEdit
         resources/icons/resize.svg
     SOURCES
         ${RELATIVE_MODEL_SOURCES}
-        #src/model/FileSystemModel.h
-        #src/model/FileSystemModel.cpp
-        #src/model/LineNumberModel.h
-        #src/model/LineNumberModel.cpp
         ${RELATIVE_CONFIG_SOURCES}
+        ${RELATIVE_LOGGER_SOURCES}
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
