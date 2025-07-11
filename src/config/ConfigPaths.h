@@ -10,6 +10,15 @@ enum class ConfigType {
     StateData        // 状态数据
 };
 
+inline QString configTypeToString(ConfigType type) {
+    switch (type) {
+    case ConfigType::SystemSettings: return "SystemSettings";
+    case ConfigType::UserSettings: return "UserSettings";
+    case ConfigType::StateData: return "StateData";
+    default: return "Unknown";
+    }
+}
+
 // 配置文件路径管理类
 class ConfigPaths
 {

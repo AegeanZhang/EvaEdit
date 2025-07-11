@@ -3,6 +3,8 @@
 #include <QCoreApplication>
 #include <QJsonDocument>
 
+#include "../logger/Logger.h"
+
 #include "ConfigKeys.h"
 #include "ConfigPaths.h"
 
@@ -39,6 +41,8 @@ void ConfigCenter::loadConfig(ConfigType type)
 {
     QString filePath = ConfigPaths::getConfigFilePath(type);
     QFile file(filePath);
+
+	LOG_DEBUG("加载 [" + configTypeToString(type) + "] 配置文件: " + filePath);
 
     if (!file.exists() && type == ConfigType::SystemSettings) {
         // 系统配置文件不存在，初始化默认配置
@@ -103,9 +107,19 @@ void ConfigCenter::saveConfig(ConfigType type)
 
 void ConfigCenter::loadAllConfigs()
 {
+    // 使用静态标志确保只加载一次
+    static bool configsLoaded = false;
+    if (configsLoaded) {
+        LOG_DEBUG("配置已加载过，跳过重复加载");
+        return;
+    }
+
     loadConfig(ConfigType::SystemSettings);
     loadConfig(ConfigType::UserSettings);
     loadConfig(ConfigType::StateData);
+
+    configsLoaded = true;
+    LOG_DEBUG("已完成所有配置加载");
 }
 
 void ConfigCenter::initializeSystemDefaults()

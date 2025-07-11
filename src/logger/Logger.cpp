@@ -27,7 +27,7 @@ void Logger::setLogToConsole(bool enabled)
 QString Logger::logFilePath()
 {
     QString date = QDate::currentDate().toString("yyyyMMdd");
-    return m_logDir + QString("/log_%1.txt").arg(date);
+    return m_logDir + QString("/EvaEdit_%1.log").arg(date);
 }
 
 QString Logger::levelToString(LogLevel level)
