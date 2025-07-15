@@ -80,19 +80,20 @@ Rectangle {
             id: topBar
 
             spacing: root.tabBarSpacing
-            // Shows help text when clicked.
-            SidebarEntry {
-                id: infoTab
-                icon.source: "../resources/icons/light_bulb.svg"
-                checkable: true
-                checked: true
-            }
 
             // Shows the file system when clicked.
             SidebarEntry {
                 id: filesystemTab
 
                 icon.source: "../resources/icons/read.svg"
+                checkable: true
+                checked: true
+            }
+
+            // Shows help text when clicked.
+            SidebarEntry {
+                id: infoTab
+                icon.source: "../resources/icons/light_bulb.svg"
                 checkable: true
             }
         }

@@ -24,6 +24,17 @@ void Logger::setLogToConsole(bool enabled)
     m_logToConsole = enabled;
 }
 
+void Logger::setLogLevel(LogLevel level)
+{
+    QMutexLocker locker(&m_mutex);
+    m_logLevel = level;
+}
+
+Logger::LogLevel Logger::getLogLevel() const
+{
+    return m_logLevel; // 不需要加锁，读取一个整型值是原子的
+}
+
 QString Logger::logFilePath()
 {
     QString date = QDate::currentDate().toString("yyyyMMdd");
@@ -44,6 +55,10 @@ QString Logger::levelToString(LogLevel level)
 
 void Logger::log(LogLevel level, const QString& message, const char* file, int line, const char* function)
 {
+    // 如果日志级别低于设置的最低级别，直接返回不处理
+    if (level < m_logLevel)
+        return;
+
     QMutexLocker locker(&m_mutex);
 
     QString time = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");

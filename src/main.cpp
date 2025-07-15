@@ -4,25 +4,33 @@
 
 #include "config/ConfigCenter.h"
 #include "logger/Logger.h"
+#include "logger/QmlLoggerWrapper.h"
 
 #include "model/FileSystemModel.h"
 #include "model/LineNumberModel.h"
 
 int main(int argc, char *argv[])
 {
-    LOG_INFO("程序启动中 ...");
-
     // 可选配置
     /*Logger::instance().setLogDir(
         QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));*/
     //Logger::instance().setLogToConsole(true);
 	// 设置日志目录为当前目录
 	Logger::instance().setLogDir(QDir::currentPath());
+    Logger::instance().setLogToConsole(false);
+    Logger::instance().setLogLevel(Logger::Debug); 
+
+    LOG_INFO("程序启动中 ...");
 
     ConfigCenter::instance()->loadAllConfigs();
 
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+
+    qmlRegisterSingletonType<QmlLoggerWrapper>("Logger", 1, 0, "Logger",
+        [](QQmlEngine*, QJSEngine*) -> QObject* {
+            return new QmlLoggerWrapper;
+        });
 
     QObject::connect(
         &engine,

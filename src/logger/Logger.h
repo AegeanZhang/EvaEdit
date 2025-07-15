@@ -14,12 +14,15 @@ public:
     enum LogLevel { Debug, Info, Warning, Error, Fatal };
     Q_ENUM(LogLevel)
 
-        static Logger& instance();
+    static Logger& instance();
     void log(LogLevel level, const QString& message,
         const char* file, int line, const char* function);
 
     void setLogToConsole(bool enabled);
     void setLogDir(const QString& dirPath); // 默认当前目录
+    void setLogLevel(LogLevel level);
+
+    Logger::LogLevel getLogLevel() const;
 
 private:
     explicit Logger(QObject* parent = nullptr);
@@ -31,6 +34,7 @@ private:
     QMutex m_mutex;
     QString m_logDir;
     bool m_logToConsole = true;
+    LogLevel m_logLevel = Debug; // 最小日志级别，默认是Debug
 };
 
 // 宏简化调用

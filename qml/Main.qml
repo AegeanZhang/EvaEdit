@@ -3,7 +3,9 @@ import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import Qt.labs.platform as Platform
 
-import EvaEdit
+import Logger
+
+//import EvaEdit
 
 pragma ComponentBehavior: Bound
 
@@ -14,14 +16,34 @@ ApplicationWindow {
     property bool showLineNumbers: true
     property string currentFilePath: ""
 
-    width: 1100
-    height: 600
+    // 使用可用桌面空间而不是整个屏幕
+    width: Screen.desktopAvailableWidth
+    height: Screen.desktopAvailableHeight
+
+    // 设置窗口位置
+    x: Screen.desktopAvailableWidth / 2 - root.width / 2
+    y: Screen.desktopAvailableHeight / 2 - root.height / 2
+
+    //width: 1100
+    //height: 600
     minimumWidth: 200
     minimumHeight: 100
     visible: true
     color: Colors.background
     flags: Qt.Window | Qt.FramelessWindowHint
     title: qsTr("EvaEdit")
+
+    
+    Component.onCompleted: {
+        Logger.info("窗口加载完成")
+        
+        //root.width = Screen.width;
+        //root.height = Screen.height;
+
+        // 设置窗口位置（居中）
+        //root.x = Screen.width / 2 - root.width / 2
+        //root.y = Screen.height / 2 - root.height / 2
+    }
 
     // 添加文件夹选择对话框
     Platform.FolderDialog {
@@ -119,16 +141,6 @@ ApplicationWindow {
                     anchors.fill: parent
                     currentIndex: sidebar.currentTabIndex
 
-                    // Shows the help text.
-                    Text {
-                        text: qsTr("This example shows how to use and visualize the file system.\n\n"
-                                 + "Customized Qt Quick Components have been used to achieve this look.\n\n"
-                                 + "You can edit the files but they won't be changed on the file system.\n\n"
-                                 + "Click on the folder icon to the left to get started.")
-                        wrapMode: TextArea.Wrap
-                        color: Colors.text
-                    }
-
                     // Shows the files on the file system.
                     EFileView {
                         id: fileSystemView
@@ -137,6 +149,16 @@ ApplicationWindow {
                             root.currentFilePath = path;
                             tabView.addNewTab(path);
                         }
+                    }
+
+                    // Shows the help text.
+                    Text {
+                        text: qsTr("This example shows how to use and visualize the file system.\n\n"
+                                 + "Customized Qt Quick Components have been used to achieve this look.\n\n"
+                                 + "You can edit the files but they won't be changed on the file system.\n\n"
+                                 + "Click on the folder icon to the left to get started.")
+                        wrapMode: TextArea.Wrap
+                        color: Colors.text
                     }
                 }
             }
