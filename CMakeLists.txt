@@ -32,8 +32,8 @@ qt_add_qml_module(EvaEdit
     VERSION 1.0
     QML_FILES
         ${QML_FILES}
-    RESOURCES
         qml/qmldir
+    RESOURCES
         resources/icons/light_bulb.svg
         resources/icons/read.svg
         resources/icons/globe.svg
