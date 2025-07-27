@@ -1,6 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQml.Models
+
+import Logger
 
 import EvaEdit
 
@@ -23,16 +26,16 @@ Rectangle {
 
     // 添加新标签页的函数
     function addNewTab(filePath) {
-        // 如果文件已打开，切换到该标签
-        for (let i = 0; i < openFiles.length; i++) {
-            if (openFiles[i] === filePath) {
-                tabBar.currentIndex = i;
-                return;
-            }
-        }
-
-        // 否则添加新标签
+        // filePath 是否为空字符串
         if (filePath) {
+            // 如果文件已打开，切换到该标签
+            for (let i = 0; i < openFiles.length; i++) {
+                if (openFiles[i] === filePath) {
+                    tabBar.currentIndex = i;
+                    return;
+                }
+            }
+
             openFiles.push(filePath);
             tabModel.append({
                 "filePath": filePath,
@@ -47,7 +50,7 @@ Rectangle {
                 "fileName": newTabId
             });
         }
-        
+
         tabBar.currentIndex = tabModel.count - 1;
         root.filePathChanged(root.currentFilePath);
     }
@@ -92,7 +95,7 @@ Rectangle {
             // 如果没有标签页，自动添加一个空白页
             Component.onCompleted: {
                 if (tabModel.count === 0) {
-                    addNewTab("");
+                    root.addNewTab("");
                 }
             }
             
@@ -102,16 +105,19 @@ Rectangle {
                 
                 TabButton {
                     id: tabButton
-                    // 添加一个自定义属性来获取索引
-                    property int tabIndex: tabRepeater.model.index(index, 0)
+
+                    // 这里使用required属性来明确接收model
+                    required property var model
+
+                    property int tabIndex: model.index
+                    property string tabTitle: model.fileName
                     
-                    text: model.fileName || "新标签页"
                     width: Math.max(implicitWidth, 120)
                     
                     contentItem: RowLayout {
                         Text {
                             Layout.fillWidth: true
-                            text: tabButton.text
+                            text: tabButton.tabTitle
                             elide: Text.ElideRight
                             color: tabBar.currentIndex === tabButton.tabIndex ? Colors.textFile : Colors.text
                             horizontalAlignment: Text.AlignHCenter
