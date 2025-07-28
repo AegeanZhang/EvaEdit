@@ -59,7 +59,8 @@ ApplicationWindow {
             FileSystemModel.setDirectory(cleanPath);
             
             // 切换到文件浏览标签页
-            sidebar.currentTabIndex = 1;
+            //sidebar.currentTabIndex = 1;
+            sidebar.currentTabIndex = 0;
         }
     }
 

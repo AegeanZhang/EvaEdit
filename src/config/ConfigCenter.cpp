@@ -52,7 +52,6 @@ void ConfigCenter::loadConfig(ConfigType type)
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
-        //qWarning() << "无法打开配置文件:" << filePath;
         LOG_WARN("无法打开配置文件: " + filePath);
         return;
     }
@@ -62,7 +61,6 @@ void ConfigCenter::loadConfig(ConfigType type)
 
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (doc.isNull() || !doc.isObject()) {
-        //qWarning() << "配置文件格式无效:" << filePath;
         LOG_WARN("配置文件格式无效: " + filePath);
         return;
     }
@@ -86,7 +84,6 @@ void ConfigCenter::saveConfig(ConfigType type)
     QFile file(filePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        //qWarning() << "无法写入配置文件:" << filePath;
         LOG_WARN("无法写入配置文件: " + filePath);
         return;
     }

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
+import Logger
 import EvaEdit
 
 pragma ComponentBehavior: Bound
@@ -59,7 +60,8 @@ Rectangle {
 
                             width: parent.width
                             height: parent.height
-                            horizontalAlignment: Text.AlignLeft
+                            //horizontalAlignment: Text.AlignLeft
+                            horizontalAlignment: Text.AlignRight
                             verticalAlignment: Text.AlignVCenter
 
                             color: (root.currentLineNumber === parent.index)
@@ -131,6 +133,16 @@ Rectangle {
 
                 text: FileSystemModel.readFile(root.currentFilePath)
                 tabStopDistance: fontMetrics.averageCharacterWidth * 4
+
+                font.family: "Consolas"
+                font.pixelSize: 14
+
+                Component.onCompleted: {
+                    Logger.debug("TextArea font family:" + font.family)
+                    Logger.debug("TextArea font pixelSize:" + font.pixelSize)
+                    Logger.debug("FontMetrics font family:" + fontMetrics.font.family)
+                    Logger.debug("FontMetrics font pixelSize:" + fontMetrics.font.pixelSize)
+                }
 
                 // Grab the current line number from the C++ interface.
                 onCursorPositionChanged: {
