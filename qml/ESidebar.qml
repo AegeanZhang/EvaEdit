@@ -118,7 +118,7 @@ Rectangle {
                 id: qtWebsiteButton
                 icon.source: "../resources/icons/globe.svg"
                 checkable: false
-                onClicked: Qt.openUrlExternally("https://www.qt.io/")
+                onClicked: Qt.openUrlExternally("https://github.com/AegeanZhang/EvaEdit")
             }
 
             // Opens the About Qt Window.

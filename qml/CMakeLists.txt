@@ -16,6 +16,9 @@ set(QML_FILES_BASE
     Colors.qml
     ResizeButton.qml
     WindowDragHandler.qml
+
+    # 操作文件
+    actions/MenuActions.js
 )
 
 # 如果已经进行了目录重组，可以改用下面的方式（取消注释）

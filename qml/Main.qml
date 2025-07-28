@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import Qt.labs.platform as Platform
 
 import Logger
+import "actions/MenuActions.js" as MenuActions
 
 //import EvaEdit
 
@@ -78,7 +79,10 @@ ApplicationWindow {
         infoText: root.getInfoText()
         EMenu {
             title: qsTr("文件")
-            Action { text: qsTr("新建") }
+            Action { 
+                text: qsTr("新建")
+                onTriggered: MenuActions.newFile(tabView);
+            }
             Action { text: qsTr("打开") }
             Action { text: qsTr("保存") }
             Action { text: qsTr("另存为") }
