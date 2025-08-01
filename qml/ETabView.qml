@@ -14,63 +14,50 @@ Rectangle {
 
     // 公共属性
     property bool showLineNumbers: true
-    property var openFiles: []  // 存储打开的文件路径
-    property int currentTabIndex: tabBar.currentIndex
-    property string currentFilePath: currentTabIndex >= 0 && currentTabIndex < openFiles.length 
-                                  ? openFiles[currentTabIndex] : ""
 
     // 信号
     signal filePathChanged(string filePath)
 
     color: Colors.surface1
+    
+    Connections {
+        target: TabController
 
-    // 添加新标签页的函数
-    function addNewTab(filePath) {
-        // filePath 是否为空字符串
-        if (filePath) {
-            // 如果文件已打开，切换到该标签
-            for (let i = 0; i < openFiles.length; i++) {
-                if (openFiles[i] === filePath) {
-                    tabBar.currentIndex = i;
-                    return;
-                }
-            }
+        function onCurrentFilePathChanged() {
+            root.filePathChanged(TabController.currentFilePath);
+        }
+        
+        function onFocusRequested(tabIndex) {
+            setFocusToTab(tabIndex);
+        }
 
-            openFiles.push(filePath);
+        function onTabAdded(index, filePath) {
             tabModel.append({
                 "filePath": filePath,
-                "fileName": filePath.substring(filePath.lastIndexOf("/") + 1)
-            });
-        } else {
-            // 新建空白标签页
-            const newTabId = "新标签页 " + (tabModel.count + 1);
-            openFiles.push("");
-            tabModel.append({
-                "filePath": "",
-                "fileName": newTabId
+                "fileName": TabController.getTabFileName(index)
             });
         }
 
-        tabBar.currentIndex = tabModel.count - 1;
-        root.filePathChanged(root.currentFilePath);
+        function onTabClosed(index) {
+            tabModel.remove(index);
+        }
+    }
+    
+    // 🔥 纯UI函数（不包含业务逻辑）
+    function setFocusToTab(tabIndex) {
+        Qt.callLater(function() {
+            if (tabIndex >= 0 && tabIndex < editorRepeater.count) {
+                var editor = editorRepeater.itemAt(tabIndex);
+                if (editor && editor.setFocus) {
+                    editor.setFocus();
+                }
+            }
+        });
     }
 
-    // 关闭标签页
-    function closeTab(index) {
-        openFiles.splice(index, 1);
-        tabModel.remove(index);
-        
-        // 如果没有标签页，创建一个新的空白页
-        if (tabModel.count === 0) {
-            addNewTab("");
-        }
-        
-        // 防止索引越界
-        if (tabBar.currentIndex >= tabModel.count) {
-            tabBar.currentIndex = tabModel.count - 1;
-        }
-        
-        root.filePathChanged(root.currentFilePath);
+    // 🔥 向外暴露的接口（保持兼容性）
+    function addNewTab(filePath) {
+        return TabController.addNewTab(filePath);
     }
 
     ColumnLayout {
@@ -82,6 +69,10 @@ Rectangle {
             id: tabBar
             Layout.fillWidth: true
             Layout.preferredHeight: 36
+
+            // 🔥 绑定到控制器
+            currentIndex: TabController.currentTabIndex
+            onCurrentIndexChanged: TabController.currentTabIndex = currentIndex
             
             background: Rectangle {
                 color: Colors.surface2
@@ -94,8 +85,20 @@ Rectangle {
             
             // 如果没有标签页，自动添加一个空白页
             Component.onCompleted: {
-                if (tabModel.count === 0) {
-                    root.addNewTab("");
+                //if (tabModel.count === 0) {
+                //    root.addNewTab("");
+                //}
+                // 如果控制器中没有标签，添加一个空白标签
+                if (TabController.tabCount === 0) {
+                    TabController.addNewTab("");
+                } else {
+                    // 同步现有标签
+                    for (let i = 0; i < TabController.tabCount; i++) {
+                        tabModel.append({
+                            "filePath": TabController.getTabFilePath(i),
+                            "fileName": TabController.getTabFileName(i)
+                        });
+                    }
                 }
             }
             
@@ -141,7 +144,8 @@ Rectangle {
                                 id: closeMouseArea
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                onClicked: root.closeTab(tabButton.tabIndex)
+                                //onClicked: root.closeTab(tabButton.tabIndex)
+                                onClicked: TabController.closeTab(tabButton.tabIndex)
                             }
                         }
                     }
@@ -156,10 +160,8 @@ Rectangle {
                         }
                     }
                     
-                    onClicked: {
-                        tabBar.currentIndex = tabButton.tabIndex;
-                        root.filePathChanged(root.currentFilePath);
-                    }
+                    // 🔥 简化点击处理
+                    onClicked: TabController.currentTabIndex = tabButton.tabIndex
                 }
             }
             
@@ -167,7 +169,8 @@ Rectangle {
             TabButton {
                 width: 40
                 text: "+"
-                onClicked: addNewTab("")
+                //onClicked: addNewTab("")
+                onClicked: TabController.addNewTab("")
                 
                 contentItem: Text {
                     text: parent.text
@@ -178,13 +181,6 @@ Rectangle {
                 
                 background: Rectangle {
                     color: parent.hovered ? Colors.background : Colors.surface2
-                }
-            }
-            
-            // 当前索引变化时触发事件
-            onCurrentIndexChanged: {
-                if (currentIndex >= 0 && currentIndex < openFiles.length) {
-                    root.filePathChanged(root.currentFilePath);
                 }
             }
         }

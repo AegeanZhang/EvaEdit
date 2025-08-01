@@ -34,16 +34,8 @@ ApplicationWindow {
     flags: Qt.Window | Qt.FramelessWindowHint
     title: qsTr("EvaEdit")
 
-    
     Component.onCompleted: {
         Logger.info("窗口加载完成")
-        
-        //root.width = Screen.width;
-        //root.height = Screen.height;
-
-        // 设置窗口位置（居中）
-        //root.x = Screen.width / 2 - root.width / 2
-        //root.y = Screen.height / 2 - root.height / 2
     }
 
     // 添加文件夹选择对话框
@@ -78,9 +70,10 @@ ApplicationWindow {
         dragWindow: root
         infoText: root.getInfoText()
         EMenu {
-            title: qsTr("文件")
+            title: qsTr("文件(<u>F</u>)")
             Action { 
-                text: qsTr("新建")
+                text: qsTr("新建(&N)")
+                shortcut: "Ctrl+N"
                 onTriggered: MenuActions.newFile(tabView);
             }
             Action { text: qsTr("打开") }

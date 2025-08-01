@@ -131,17 +131,19 @@ Rectangle {
                 topPadding: 0
                 leftPadding: 10
 
-                text: FileSystemModel.readFile(root.currentFilePath)
+                text: ""
                 tabStopDistance: fontMetrics.averageCharacterWidth * 4
 
                 font.family: "Consolas"
                 font.pixelSize: 14
 
                 Component.onCompleted: {
-                    Logger.debug("TextArea font family:" + font.family)
-                    Logger.debug("TextArea font pixelSize:" + font.pixelSize)
-                    Logger.debug("FontMetrics font family:" + fontMetrics.font.family)
-                    Logger.debug("FontMetrics font pixelSize:" + fontMetrics.font.pixelSize)
+                    Logger.debug("创建了一个TextArea" + root.currentFilePath)
+                    if(root.currentFilePath !== "") {
+                        text = FileSystemModel.readFile(root.currentFilePath);
+                    } else {
+                        text = "123";
+                    }
                 }
 
                 // Grab the current line number from the C++ interface.
