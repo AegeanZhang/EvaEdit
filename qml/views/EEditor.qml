@@ -138,7 +138,7 @@ Rectangle {
                 font.pixelSize: 14
 
                 Component.onCompleted: {
-                    Logger.debug("创建了一个TextArea" + root.currentFilePath)
+                    Logger.debug("创建了一个TextArea: " + root.currentFilePath)
                     if(root.currentFilePath !== "") {
                         text = FileSystemModel.readFile(root.currentFilePath);
                     } else {

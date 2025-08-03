@@ -56,9 +56,9 @@ Rectangle {
     }
 
     // 🔥 向外暴露的接口（保持兼容性）
-    function addNewTab(filePath) {
-        return TabController.addNewTab(filePath);
-    }
+    //function addNewTab(filePath) {
+    //    return TabController.addNewTab(filePath);
+    //}
 
     ColumnLayout {
         anchors.fill: parent
@@ -83,14 +83,10 @@ Rectangle {
                 id: tabModel
             }
             
-            // 如果没有标签页，自动添加一个空白页
             Component.onCompleted: {
-                //if (tabModel.count === 0) {
-                //    root.addNewTab("");
-                //}
                 // 如果控制器中没有标签，添加一个空白标签
                 if (TabController.tabCount === 0) {
-                    TabController.addNewTab("");
+                    TabController.addNewTab();
                 } else {
                     // 同步现有标签
                     for (let i = 0; i < TabController.tabCount; i++) {
@@ -170,7 +166,7 @@ Rectangle {
                 width: 40
                 text: "+"
                 //onClicked: addNewTab("")
-                onClicked: TabController.addNewTab("")
+                onClicked: TabController.addNewTab()
                 
                 contentItem: Text {
                     text: parent.text

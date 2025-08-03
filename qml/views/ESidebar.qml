@@ -85,7 +85,7 @@ Rectangle {
             SidebarEntry {
                 id: filesystemTab
 
-                icon.source: "../resources/icons/read.svg"
+                icon.source: "../../resources/icons/read.svg"
                 checkable: true
                 checked: true
             }
@@ -93,7 +93,7 @@ Rectangle {
             // Shows help text when clicked.
             SidebarEntry {
                 id: infoTab
-                icon.source: "../resources/icons/light_bulb.svg"
+                icon.source: "../../resources/icons/light_bulb.svg"
                 checkable: true
             }
         }
@@ -116,7 +116,7 @@ Rectangle {
             // Opens the Qt website in the system's web browser.
             SidebarEntry {
                 id: qtWebsiteButton
-                icon.source: "../resources/icons/globe.svg"
+                icon.source: "../../resources/icons/globe.svg"
                 checkable: false
                 onClicked: Qt.openUrlExternally("https://github.com/AegeanZhang/EvaEdit")
             }
@@ -125,7 +125,7 @@ Rectangle {
             SidebarEntry {
                 id: aboutQtButton
 
-                icon.source: "../resources/icons/info_sign.svg"
+                icon.source: "../../resources/icons/info_sign.svg"
                 checkable: false
                 onClicked: aboutQtWindow.visible = !aboutQtWindow.visible
             }

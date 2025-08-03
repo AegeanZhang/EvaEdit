@@ -11,7 +11,6 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 add_subdirectory(src)
 add_subdirectory(qml)
-add_subdirectory(src/controller)
 
 set(PROJECT_SOURCES
     ${SRC_SOURCES}
@@ -27,6 +26,8 @@ target_include_directories(EvaEdit
     ${CMAKE_CURRENT_SOURCE_DIR}/src/model
     ${CMAKE_CURRENT_SOURCE_DIR}/src/config
     ${CMAKE_CURRENT_SOURCE_DIR}/src/controller
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/common
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/logger
 )
 
 qt_add_qml_module(EvaEdit
@@ -49,6 +50,7 @@ qt_add_qml_module(EvaEdit
         ${RELATIVE_CONTROLLER_SOURCES}
         ${RELATIVE_CONFIG_SOURCES}
         ${RELATIVE_LOGGER_SOURCES}
+        ${RELATIVE_COMMON_SOURCES}
 )
 
 set_target_properties(EvaEdit PROPERTIES

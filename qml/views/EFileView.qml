@@ -51,8 +51,8 @@ Rectangle {
                 x: treeDelegate.leftMargin + (treeDelegate.depth * treeDelegate.indentation)
                 anchors.verticalCenter: parent.verticalCenter
                 source: treeDelegate.hasChildren ? (treeDelegate.expanded
-                            ? "../resources/icons/folder_open.svg" : "../resources/icons/folder_closed.svg")
-                        : "../resources/icons/generic_file.svg"
+                            ? "../../resources/icons/folder_open.svg" : "../../resources/icons/folder_closed.svg")
+                        : "../../resources/icons/generic_file.svg"
                 sourceSize.width: 20
                 sourceSize.height: 20
                 fillMode: Image.PreserveAspectFit

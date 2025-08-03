@@ -6,7 +6,7 @@ import Qt.labs.platform as Platform
 import Logger
 import "actions/MenuActions.js" as MenuActions
 
-//import EvaEdit
+import EvaEdit
 
 pragma ComponentBehavior: Bound
 
@@ -72,9 +72,10 @@ ApplicationWindow {
         EMenu {
             title: qsTr("文件(<u>F</u>)")
             Action { 
-                text: qsTr("新建(&N)")
+                //text: qsTr("新建(&N)")
+                text: AppConstants.newFile
                 shortcut: "Ctrl+N"
-                onTriggered: MenuActions.newFile(tabView);
+                onTriggered: MenuActions.newFile(TabController);
             }
             Action { text: qsTr("打开") }
             Action { text: qsTr("保存") }
@@ -145,7 +146,8 @@ ApplicationWindow {
                         color: Colors.surface1
                         onFileClicked: path => {
                             root.currentFilePath = path;
-                            tabView.addNewTab(path);
+                            //tabView.addNewTab(path);
+                            TabController.addNewTab(path);
                         }
                     }
 

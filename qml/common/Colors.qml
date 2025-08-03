@@ -10,7 +10,8 @@ QtObject {
     readonly property color surface2: "#1F1F1F"
     // 字体的颜色，浅灰色
     readonly property color text: "#D9D9D6"
-    readonly property color textFile: "#E1D2B7"
+    //readonly property color textFile: "#E1D2B7"
+    readonly property color textFile: "#D9D9D6"
     readonly property color disabledText: "#2C313A"
     readonly property color selection: "#4B4A4A"
     readonly property color active: "#292828"
