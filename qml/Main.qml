@@ -80,7 +80,7 @@ ApplicationWindow {
                 //text: qsTr("新建(&N)")
                 text: AppConstants.newFile
                 shortcut: "Ctrl+N"
-                onTriggered: MenuActions.newFile(TabController);
+                onTriggered: TabController.addNewTab();
             }
             Action { 
                 text: qsTr("打开")

@@ -23,6 +23,14 @@ Rectangle {
     Connections {
         target: TabController
 
+        function onFilePathUpdated(index, oldPath, newPath) {
+            // 1. 更新数据模型
+            tabModel.set(index, {
+                "filePath": newPath, 
+                "fileName": TabController.getTabFileName(index)
+            });
+        }
+
         function onCurrentFilePathChanged() {
             root.filePathChanged(TabController.currentFilePath);
         }
