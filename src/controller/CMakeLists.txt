@@ -1,6 +1,8 @@
 set(CONTROLLER_FILES_BASE
     TabController.h
     TabController.cpp
+    FileController.h
+    FileController.cpp
 )
 
 # 创建带前缀的文件列表

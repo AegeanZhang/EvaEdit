@@ -7,6 +7,7 @@ set(QML_FILES_BASE
     # 组件文件
     components/EMenu.qml
     components/EMenuBar.qml
+    components/EDialogs.qml
     
     # 视图文件
     views/EEditor.qml

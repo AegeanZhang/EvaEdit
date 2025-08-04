@@ -139,10 +139,12 @@ Rectangle {
 
                 Component.onCompleted: {
                     Logger.debug("创建了一个TextArea: " + root.currentFilePath)
-                    if(root.currentFilePath !== "") {
-                        text = FileSystemModel.readFile(root.currentFilePath);
-                    } else {
+                    if(TabController.isNewFile(root.currentFilePath)) {
+                        // If the file is new, we create an empty text area.
                         text = "123";
+                    } else {
+                        // If the file is not new, we read the content from the file system.
+                        text = FileSystemModel.readFile(root.currentFilePath);
                     }
                 }
 

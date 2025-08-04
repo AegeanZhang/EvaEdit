@@ -38,22 +38,27 @@ ApplicationWindow {
         Logger.info("窗口加载完成")
     }
 
-    // 添加文件夹选择对话框
-    Platform.FolderDialog {
-        id: folderDialog
-        title: qsTr("选择文件夹")
-        folder: Platform.StandardPaths.writableLocation(Platform.StandardPaths.DocumentsLocation)
+    // 对话框组件
+    EDialogs {
+        id: dialogs
         
-        onAccepted: {
-            // 将选中的文件夹设置为文件浏览器的根目录
-            const folderPath = folderDialog.folder.toString();
-            // 将 file:/// 前缀移除 (如果需要)
-            const cleanPath = folderPath.replace(/^(file:\/{2,3})/, "");
-            FileSystemModel.setDirectory(cleanPath);
-            
+        onFolderSelected: function(folderPath) {
+            Logger.info("文件夹已选择: " + folderPath)
+            FileSystemModel.setDirectory(folderPath)
             // 切换到文件浏览标签页
-            //sidebar.currentTabIndex = 1;
-            sidebar.currentTabIndex = 0;
+            sidebar.currentTabIndex = 0
+        }
+        
+        onFileSelected: function(filePath) {
+            Logger.info("文件已选择: " + filePath)
+            // 使用 TabController 打开文件
+            TabController.addNewTab(filePath)
+        }
+        
+        onSaveAsSelected: function(filePath) {
+            Logger.info("另存为路径已选择: " + filePath)
+            // 处理另存为逻辑
+            FileController.saveAsFile(filePath)
         }
     }
 
@@ -77,13 +82,30 @@ ApplicationWindow {
                 shortcut: "Ctrl+N"
                 onTriggered: MenuActions.newFile(TabController);
             }
-            Action { text: qsTr("打开") }
-            Action { text: qsTr("保存") }
-            Action { text: qsTr("另存为") }
+            Action { 
+                text: qsTr("打开")
+                shortcut: "Ctrl+O"
+                onTriggered: dialogs.openFileDialog()
+            }
+            Action {
+                text: qsTr("保存")
+                shortcut: "Ctrl+S"
+                onTriggered: ()=> {
+                    if(!FileController.saveFile()) {
+                        dialogs.openSaveAsDialog()
+                    }                    
+                }
+            }
+            Action {
+                text: qsTr("另存为")
+                shortcut: "Ctrl+Shift+S"
+                onTriggered: dialogs.openSaveAsDialog()
+                }
             MenuSeparator {}
             Action { 
                 text: qsTr("打开目录") 
-                onTriggered: folderDialog.open()
+                //onTriggered: folderDialog.open()
+                onTriggered: dialogs.openFolderDialog() 
             }
             MenuSeparator {}
             Action { text: qsTr("退出"); onTriggered: Qt.quit() }
@@ -153,26 +175,13 @@ ApplicationWindow {
 
                     // Shows the help text.
                     Text {
-                        text: qsTr("This example shows how to use and visualize the file system.\n\n"
-                                 + "Customized Qt Quick Components have been used to achieve this look.\n\n"
-                                 + "You can edit the files but they won't be changed on the file system.\n\n"
-                                 + "Click on the folder icon to the left to get started.")
+                        text: qsTr("显示EvaEdit的简介")
                         wrapMode: TextArea.Wrap
                         color: Colors.text
                     }
                 }
             }
 
-            // The main view that contains the editor.
-            /*EEditor {
-                id: editor
-                color: Colors.surface1
-                showLineNumbers: root.showLineNumbers
-                currentFilePath: root.currentFilePath
-                SplitView.fillWidth: true
-                SplitView.fillHeight: true
-            }*/
-            // 替换单个编辑器为标签式编辑器
             ETabView {
                 id: tabView
                 showLineNumbers: root.showLineNumbers
@@ -204,11 +213,8 @@ ApplicationWindow {
             color: Colors.text
             text: qsTr("就绪")
         }
-    ResizeButton {
-        resizeWindow: root
+        ResizeButton {
+            resizeWindow: root
+        }
     }
-    }
-
-
-
 }
