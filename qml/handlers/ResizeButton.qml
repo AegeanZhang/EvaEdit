@@ -14,7 +14,7 @@ Button {
     rightPadding: 3
     bottomPadding: 3
 
-    icon.source: "../resources/icons/resize.svg"
+    icon.source: "../../resources/icons/resize.svg"
     icon.color: hovered ? Colors.iconIndicator : Colors.icon
 
     background: null

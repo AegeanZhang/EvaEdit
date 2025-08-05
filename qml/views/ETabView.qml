@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQml.Models
+import QtQuick.Effects
 
 import Logger
 
@@ -138,12 +139,39 @@ Rectangle {
                             radius: 8
                             color: closeMouseArea.containsMouse ? Colors.color2 : "transparent"
                             
-                            Text {
+                            /*Text {
                                 anchors.centerIn: parent
                                 text: "×"
                                 color: closeMouseArea.containsMouse ? Colors.iconIndicator : Colors.text
+                            }*/
+                            Image {
+                                id: closeIcon
+                                anchors.centerIn: parent
+                                width: 12
+                                height: 12
+                                source: "../../resources/icons/close_btn.svg"
+                                sourceSize: Qt.size(12, 12)
+                                visible: false // 隐藏原始图像
                             }
-                            
+
+                            MultiEffect {
+                                source: closeIcon
+                                //anchors.fill: closeIcon
+                                anchors.centerIn: parent
+                                width: 12
+                                height: 12
+                                colorization: 1.0
+                                colorizationColor: closeMouseArea.containsMouse ? "#ffffff" : "#888888"  // 悬停时白色，正常时灰色
+        
+                                // 添加平滑的颜色过渡动画
+                                Behavior on colorizationColor {
+                                    ColorAnimation {
+                                        duration: 200
+                                        easing.type: Easing.OutCubic
+                                    }
+                                }
+                            }
+
                             MouseArea {
                                 id: closeMouseArea
                                 anchors.fill: parent
