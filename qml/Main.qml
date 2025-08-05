@@ -17,6 +17,15 @@ ApplicationWindow {
     property bool showLineNumbers: true
     property string currentFilePath: ""
 
+    function getInfoText() : string {
+        /* let out = root.currentFilePath
+        if (!out)
+            return qsTr("EvaEdit")
+        return root.expandPath ? out : out.substring(out.lastIndexOf("/") + 1, out.length)
+        */
+        return qsTr("EvaEdit - 版本 1.0")
+    }
+
     // 使用可用桌面空间而不是整个屏幕
     width: Screen.desktopAvailableWidth
     height: Screen.desktopAvailableHeight
@@ -33,43 +42,6 @@ ApplicationWindow {
     color: Colors.background
     flags: Qt.Window | Qt.FramelessWindowHint
     title: qsTr("EvaEdit")
-
-    Component.onCompleted: {
-        Logger.info("窗口加载完成")
-    }
-
-    // 对话框组件
-    EDialogs {
-        id: dialogs
-        
-        onFolderSelected: function(folderPath) {
-            Logger.info("文件夹已选择: " + folderPath)
-            FileSystemModel.setDirectory(folderPath)
-            // 切换到文件浏览标签页
-            sidebar.currentTabIndex = 0
-        }
-        
-        onFileSelected: function(filePath) {
-            Logger.info("文件已选择: " + filePath)
-            // 使用 TabController 打开文件
-            TabController.addNewTab(filePath)
-        }
-        
-        onSaveAsSelected: function(filePath) {
-            Logger.info("另存为路径已选择: " + filePath)
-            // 处理另存为逻辑
-            FileController.saveAsFile(filePath)
-        }
-    }
-
-    function getInfoText() : string {
-        /* let out = root.currentFilePath
-        if (!out)
-            return qsTr("EvaEdit")
-        return root.expandPath ? out : out.substring(out.lastIndexOf("/") + 1, out.length)
-        */
-        return qsTr("EvaEdit - 版本 1.0")
-    }
 
     menuBar: EMenuBar {
         dragWindow: root
@@ -117,6 +89,34 @@ ApplicationWindow {
         }
     }
 
+    Component.onCompleted: {
+        Logger.info("窗口加载完成")
+    }
+
+    // 对话框组件
+    EDialogs {
+        id: dialogs
+        
+        onFolderSelected: function(folderPath) {
+            Logger.info("文件夹已选择: " + folderPath)
+            FileSystemModel.setDirectory(folderPath)
+            // 切换到文件浏览标签页
+            sidebar.currentTabIndex = 0
+        }
+        
+        onFileSelected: function(filePath) {
+            Logger.info("文件已选择: " + filePath)
+            // 使用 TabController 打开文件
+            TabController.addNewTab(filePath)
+        }
+        
+        onSaveAsSelected: function(filePath) {
+            Logger.info("另存为路径已选择: " + filePath)
+            // 处理另存为逻辑
+            FileController.saveAsFile(filePath)
+        }
+    }
+
     RowLayout {
         //anchors.fill: parent
         anchors.top: parent.top
@@ -153,6 +153,7 @@ ApplicationWindow {
 
             Rectangle {
                 id: navigationView
+
                 color: Colors.surface1
                 SplitView.preferredWidth: 250
                 SplitView.fillHeight: true
@@ -165,6 +166,7 @@ ApplicationWindow {
                     // Shows the files on the file system.
                     EFileView {
                         id: fileSystemView
+
                         color: Colors.surface1
                         onFileClicked: path => {
                             root.currentFilePath = path;
@@ -184,6 +186,7 @@ ApplicationWindow {
 
             ETabView {
                 id: tabView
+
                 showLineNumbers: root.showLineNumbers
                 SplitView.fillWidth: true
                 SplitView.fillHeight: true
@@ -198,6 +201,7 @@ ApplicationWindow {
     // 状态栏
     Rectangle {
         id: statusBar
+
         height: 24
         color: Colors.background
         //color: "#FFFFFF"

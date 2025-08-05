@@ -19,6 +19,23 @@ Rectangle {
     // 信号
     signal filePathChanged(string filePath)
 
+    // 🔥 纯UI函数（不包含业务逻辑）
+    function setFocusToTab(tabIndex) {
+        Qt.callLater(function() {
+            if (tabIndex >= 0 && tabIndex < editorRepeater.count) {
+                var editor = editorRepeater.itemAt(tabIndex);
+                if (editor && editor.setFocus) {
+                    editor.setFocus();
+                }
+            }
+        });
+    }
+
+    // 🔥 向外暴露的接口（保持兼容性）
+    //function addNewTab(filePath) {
+    //    return TabController.addNewTab(filePath);
+    //}
+
     color: Colors.surface1
     
     Connections {
@@ -51,23 +68,6 @@ Rectangle {
             tabModel.remove(index);
         }
     }
-    
-    // 🔥 纯UI函数（不包含业务逻辑）
-    function setFocusToTab(tabIndex) {
-        Qt.callLater(function() {
-            if (tabIndex >= 0 && tabIndex < editorRepeater.count) {
-                var editor = editorRepeater.itemAt(tabIndex);
-                if (editor && editor.setFocus) {
-                    editor.setFocus();
-                }
-            }
-        });
-    }
-
-    // 🔥 向外暴露的接口（保持兼容性）
-    //function addNewTab(filePath) {
-    //    return TabController.addNewTab(filePath);
-    //}
 
     ColumnLayout {
         anchors.fill: parent
