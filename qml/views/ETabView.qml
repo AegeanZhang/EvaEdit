@@ -139,11 +139,6 @@ Rectangle {
                             radius: 8
                             color: closeMouseArea.containsMouse ? Colors.color2 : "transparent"
                             
-                            /*Text {
-                                anchors.centerIn: parent
-                                text: "×"
-                                color: closeMouseArea.containsMouse ? Colors.iconIndicator : Colors.text
-                            }*/
                             Image {
                                 id: closeIcon
                                 anchors.centerIn: parent
@@ -151,32 +146,13 @@ Rectangle {
                                 height: 12
                                 source: "../../resources/icons/close_btn.svg"
                                 sourceSize: Qt.size(12, 12)
-                                visible: false // 隐藏原始图像
-                            }
-
-                            MultiEffect {
-                                source: closeIcon
-                                //anchors.fill: closeIcon
-                                anchors.centerIn: parent
-                                width: 12
-                                height: 12
-                                colorization: 1.0
-                                colorizationColor: closeMouseArea.containsMouse ? "#ffffff" : "#888888"  // 悬停时白色，正常时灰色
-        
-                                // 添加平滑的颜色过渡动画
-                                Behavior on colorizationColor {
-                                    ColorAnimation {
-                                        duration: 200
-                                        easing.type: Easing.OutCubic
-                                    }
-                                }
+                                visible: true 
                             }
 
                             MouseArea {
                                 id: closeMouseArea
                                 anchors.fill: parent
                                 hoverEnabled: true
-                                //onClicked: root.closeTab(tabButton.tabIndex)
                                 onClicked: TabController.closeTab(tabButton.tabIndex)
                             }
                         }
@@ -199,16 +175,21 @@ Rectangle {
             
             // 添加按钮
             TabButton {
-                width: 40
-                text: "+"
-                //onClicked: addNewTab("")
+                width: 30
                 onClicked: TabController.addNewTab()
-                
-                contentItem: Text {
-                    text: parent.text
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    color: Colors.text
+
+                contentItem: Rectangle {
+                    color: "transparent"
+        
+                    Image {
+                        id: addIcon
+                        anchors.centerIn: parent
+                        width: 14
+                        height: 14
+                        source: "../../resources/icons/add_btn.svg"
+                        sourceSize: Qt.size(14, 14)
+                        visible: true
+                    }
                 }
                 
                 background: Rectangle {

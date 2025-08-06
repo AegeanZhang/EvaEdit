@@ -46,6 +46,7 @@ qt_add_qml_module(EvaEdit
         resources/icons/generic_file.svg
         resources/icons/resize.svg
         resources/icons/close_btn.svg
+        resources/icons/add_btn.svg
     SOURCES
         ${RELATIVE_MODEL_SOURCES}
         ${RELATIVE_CONTROLLER_SOURCES}
