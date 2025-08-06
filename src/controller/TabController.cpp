@@ -79,7 +79,7 @@ bool TabController::closeTab(int index)
 
     // 如果没有标签页，创建一个新的空白页
     if (m_openFiles.isEmpty()) {
-        addNewTab(); // 【修改】使用新的方法创建新文件
+        //addNewTab(); // 【修改】使用新的方法创建新文件
         return true;
     }
 

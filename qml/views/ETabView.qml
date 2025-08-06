@@ -13,6 +13,9 @@ pragma ComponentBehavior: Bound
 Rectangle {
     id: root
 
+    readonly property int tabBarHeight: 36
+    readonly property int tabButtonHeight: 32
+
     // 公共属性
     property bool showLineNumbers: true
 
@@ -31,13 +34,8 @@ Rectangle {
         });
     }
 
-    // 🔥 向外暴露的接口（保持兼容性）
-    //function addNewTab(filePath) {
-    //    return TabController.addNewTab(filePath);
-    //}
-
     color: Colors.surface1
-    
+  
     Connections {
         target: TabController
 
@@ -76,8 +74,9 @@ Rectangle {
         // 标签栏
         TabBar {
             id: tabBar
+
             Layout.fillWidth: true
-            Layout.preferredHeight: 36
+            Layout.preferredHeight: root.tabBarHeight
 
             // 🔥 绑定到控制器
             currentIndex: TabController.currentTabIndex
@@ -85,6 +84,9 @@ Rectangle {
             
             background: Rectangle {
                 color: Colors.surface2
+
+                //border.width: 2
+                //border.color: "red"
             }
             
             // 标签模型
@@ -121,6 +123,10 @@ Rectangle {
                     property string tabTitle: model.fileName
                     
                     width: Math.max(implicitWidth, 120)
+                    height: root.tabButtonHeight
+
+                    // 添加垂直居中锚点
+                    anchors.verticalCenter: parent.verticalCenter
                     
                     contentItem: RowLayout {
                         Text {
@@ -159,7 +165,12 @@ Rectangle {
                     }
                     
                     background: Rectangle {
+                        anchors.fill: parent  // 确保背景填满按钮区域
                         color: tabBar.currentIndex === tabButton.tabIndex ? Colors.surface1 : Colors.surface2
+
+                        //border.width: 2
+                        //border.color: "green"
+
                         Rectangle {
                             width: parent.width
                             height: 2
@@ -175,11 +186,21 @@ Rectangle {
             
             // 添加按钮
             TabButton {
+                id: addTabButton
+
                 width: 30
+                height: root.tabButtonHeight
+
+                anchors.verticalCenter: parent.verticalCenter
+
                 onClicked: TabController.addNewTab()
 
                 contentItem: Rectangle {
                     color: "transparent"
+                    anchors.fill: parent
+
+                    //border.width: 2
+                    //border.color: "yellow"
         
                     Image {
                         id: addIcon
@@ -193,6 +214,7 @@ Rectangle {
                 }
                 
                 background: Rectangle {
+                    anchors.fill: parent
                     color: parent.hovered ? Colors.background : Colors.surface2
                 }
             }
