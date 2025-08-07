@@ -175,6 +175,12 @@ ApplicationWindow {
                         }
                     }
 
+                    EOutlineView {
+                        id: outlineView
+
+                        color: "#ffffff"
+                    }
+
                     // Shows the help text.
                     Text {
                         text: qsTr("显示EvaEdit的简介")

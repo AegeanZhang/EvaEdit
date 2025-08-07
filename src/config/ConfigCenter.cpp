@@ -21,13 +21,7 @@ ConfigCenter::ConfigCenter(QObject* parent)
     : QObject(parent)
 {
     // 加载所有配置文件
-    loadAllConfigs();
-
-    // 如果系统设置为空，初始化默认值
-    if (m_systemSettings.isEmpty()) {
-        initializeSystemDefaults();
-        saveConfig(ConfigType::SystemSettings);
-    }
+    //loadAllConfigs();
 }
 
 ConfigCenter::~ConfigCenter()
@@ -117,6 +111,12 @@ void ConfigCenter::loadAllConfigs()
     loadConfig(ConfigType::SystemSettings);
     loadConfig(ConfigType::UserSettings);
     loadConfig(ConfigType::StateData);
+
+    // 如果系统设置为空，初始化默认值
+    if (m_systemSettings.isEmpty()) {
+        initializeSystemDefaults();
+        saveConfig(ConfigType::SystemSettings);
+    }
 
     configsLoaded = true;
     LOG_DEBUG("已完成所有配置加载");

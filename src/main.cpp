@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+    QGuiApplication app(argc, argv);
+
     // 可选配置
     /*Logger::instance().setLogDir(
         QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));*/
@@ -24,7 +26,6 @@ int main(int argc, char *argv[])
 
     ConfigCenter::instance()->loadAllConfigs();
 
-    QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
     qmlRegisterSingletonType<QmlLoggerWrapper>("Logger", 1, 0, "Logger",

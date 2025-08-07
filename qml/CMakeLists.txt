@@ -14,6 +14,7 @@ set(QML_FILES_BASE
     views/EFileView.qml
     views/ESidebar.qml
     views/ETabView.qml
+    views/EOutlineView.qml
     
     # 工具类文件
     handlers/ResizeButton.qml

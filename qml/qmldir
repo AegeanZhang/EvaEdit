@@ -11,6 +11,7 @@ ESidebar 1.0 views/ESidebar.qml
 EEditor 1.0 views/EEditor.qml
 EFileView 1.0 views/EFileView.qml
 ETabView 1.0 views/ETabView.qml
+EOutlineView 1.0 views/EOutlineView.qml
 
 WindowDragHandler 1.0 handlers/WindowDragHandler.qml
 ResizeButton 1.0 handlers/ResizeButton.qml

@@ -90,16 +90,16 @@ Rectangle {
                 checked: true
             }
 
+            SidebarEntry {
+                id: outlineTab
+                icon.source: "../../resources/icons/outline.svg"
+                checkable: true
+            }
+
             // Shows help text when clicked.
             SidebarEntry {
                 id: infoTab
                 icon.source: "../../resources/icons/light_bulb.svg"
-                checkable: true
-            }
-
-            SidebarEntry {
-                id: outlineTab
-                icon.source: "../../resources/icons/outline.svg"
                 checkable: true
             }
         }

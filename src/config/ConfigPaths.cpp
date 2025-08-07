@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QDebug>
 
+#include "../logger/Logger.h"
+
 // 配置文件名常量
 const QString ConfigPaths::SYSTEM_SETTINGS_FILENAME = "settings.json";
 const QString ConfigPaths::USER_SETTINGS_FILENAME = "user_settings.json";
@@ -52,21 +54,25 @@ QString ConfigPaths::getProdConfigFilePath(ConfigType type)
     QString configDir;
     QString fileName = getConfigFileName(type);
     
-    switch (type) {
-    case ConfigType::SystemSettings:
-        // 系统设置存放在 AppData/EvaEdit 目录
-        configDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-        break;
-        
-    case ConfigType::UserSettings:
-    case ConfigType::StateData:
-        // 用户设置和状态数据存放在用户配置目录
-        configDir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-        break;
-    }
+    //switch (type) {
+    //case ConfigType::SystemSettings:
+    //    // 系统设置存放在 AppData/EvaEdit 目录
+    //    configDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    //    break;
+    //    
+    //case ConfigType::UserSettings:
+    //case ConfigType::StateData:
+    //    // 用户设置和状态数据存放在用户配置目录
+    //    configDir = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    //    break;
+    //}
+
+    // 开发阶段，使用环境变量EVAEDIT_CONFIG_PATH来读取配置文件
+    configDir = qgetenv("EVAEDIT_CONFIG_PATH");
+    configDir = QDir(configDir).canonicalPath();
     
     ensureConfigDirExists(configDir);
-    
+
     return configDir + "/" + fileName;
 }
 
