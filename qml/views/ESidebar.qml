@@ -9,7 +9,7 @@ Rectangle {
 
     property alias currentTabIndex: topBar.currentIndex
     required property ApplicationWindow dragWindow
-    readonly property int tabBarSpacing: 10
+    readonly property int tabBarSpacing: 20
 
     color: Colors.surface2
 
@@ -94,6 +94,12 @@ Rectangle {
             SidebarEntry {
                 id: infoTab
                 icon.source: "../../resources/icons/light_bulb.svg"
+                checkable: true
+            }
+
+            SidebarEntry {
+                id: outlineTab
+                icon.source: "../../resources/icons/outline.svg"
                 checkable: true
             }
         }

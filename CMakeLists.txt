@@ -37,14 +37,18 @@ qt_add_qml_module(EvaEdit
         ${QML_FILES}
         qml/qmldir
     RESOURCES
+        # SideBar部分的icon
         resources/icons/light_bulb.svg
         resources/icons/read.svg
         resources/icons/globe.svg
         resources/icons/info_sign.svg
+        resources/icons/outline.svg
+        # FileView部分的icons
         resources/icons/folder_closed.svg
         resources/icons/folder_open.svg
         resources/icons/generic_file.svg
         resources/icons/resize.svg
+        # TabView 部分的icons
         resources/icons/close_btn.svg
         resources/icons/add_btn.svg
     SOURCES
