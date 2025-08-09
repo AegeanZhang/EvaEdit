@@ -178,7 +178,7 @@ ApplicationWindow {
                     EOutlineView {
                         id: outlineView
 
-                        color: "#ffffff"
+                        //color: "#ffffff"
                     }
 
                     // Shows the help text.

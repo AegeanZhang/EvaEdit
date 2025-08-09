@@ -9,6 +9,6 @@ pragma ComponentBehavior: Bound
 Rectangle {
     id: root
 
-    color: "#ffffff"
+    color: Colors.surface1
 
 }
