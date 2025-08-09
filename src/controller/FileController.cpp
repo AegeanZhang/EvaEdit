@@ -7,6 +7,8 @@
 #include <QDir>
 #include <QDateTime>
 #include <QStandardPaths>
+#include <QEventLoop>
+#include <QTimer>
 
 #include "../config/ConfigCenter.h"
 #include "../logger/Logger.h"
@@ -46,6 +48,11 @@ FileController::FileController(QObject* parent)
 
     // 初始化文件修改状态映射
     m_fileModifiedStatus.clear();
+
+    // 【新增】初始化编辑器内容缓存和性能监控
+    m_editorContents.clear();
+    m_updateTimers.clear();
+    m_updateCounts.clear();
 
     // 连接配置中心信号，监听最近文件变化
     connect(m_configCenter, &ConfigCenter::recentFilesChanged,
@@ -145,11 +152,12 @@ bool FileController::openFile(const QString& filePath)
     return true;
 }
 
+
+// 【修改】saveFile 方法，保存前强制更新内容
 bool FileController::saveFile(const QString& filePath)
 {
     QString targetPath = filePath;
 
-    // 如果没有指定路径，使用当前活动文件路径
     if (targetPath.isEmpty()) {
         TabController* tabController = TabController::instance();
         targetPath = tabController->currentFilePath();
@@ -159,12 +167,19 @@ bool FileController::saveFile(const QString& filePath)
             return false;
         }
 
-        // 如果是新建文件URL，需要另存为
         if (tabController->isNewFile(targetPath)) {
             LOG_DEBUG("新建文件需要另存为");
-            return false; // 应该调用另存为对话框
+            return false;
         }
     }
+
+    // 【新增】保存前强制更新内容
+    emit forceContentUpdateRequested(targetPath);
+
+    // 短暂延迟确保内容已更新
+    QEventLoop loop;
+    QTimer::singleShot(50, &loop, &QEventLoop::quit);
+    loop.exec();
 
     return saveFileContent(targetPath, getCurrentFileContent(targetPath));
 }
@@ -179,14 +194,37 @@ bool FileController::saveAsFile(const QString& filePath)
     // 获取当前文件内容
     TabController* tabController = TabController::instance();
     QString currentPath = tabController->currentFilePath();
+
+    // 【新增】保存前强制更新内容
+    emit forceContentUpdateRequested(currentPath);
+
+    // 短暂延迟确保内容已更新
+    QEventLoop loop;
+    QTimer::singleShot(50, &loop, &QEventLoop::quit);
+    loop.exec();
+
     QString content = getCurrentFileContent(currentPath);
 
     // 保存到新路径
     if (saveFileContent(filePath, content)) {
-        // 如果原文件是新建文件，更新标签页路径
         if (tabController->isNewFile(currentPath)) {
+            // 【情况1】如果原文件是新建文件，更新当前标签页路径
             int currentIndex = tabController->currentTabIndex();
             tabController->saveFileAs(currentIndex, filePath);
+        }
+        else {
+            // 【情况2】如果原文件是已存在的文件，创建新标签页
+            int newTabIndex = tabController->addNewTab(filePath);
+            if (newTabIndex >= 0) {
+                // 初始化新标签页的内容缓存
+                m_editorContents[filePath] = content;
+                m_fileModifiedStatus[filePath] = false;
+
+                // 发出文件打开信号，让编辑器显示内容
+                emit fileOpened(filePath, content);
+
+                LOG_INFO(QString("另存为创建新标签页: %1").arg(filePath));
+            }
         }
 
         return true;
@@ -467,18 +505,13 @@ bool FileController::isSupportedFileType(const QString& filePath)
     return textMimeTypes.contains(mimeType.name());
 }
 
+// 【修改】getCurrentFileContent 实现
 QString FileController::getCurrentFileContent(const QString& filePath)
 {
-    // 这里应该从编辑器组件获取当前内容
-    // 由于我们没有直接的编辑器引用，这里返回空字符串
-    // 实际实现中，这个方法应该通过信号槽机制从编辑器获取内容
-
     LOG_DEBUG(QString("获取文件内容: %1").arg(filePath));
 
-    // TODO: 实现从编辑器获取当前内容的机制
-    // 可能需要通过信号槽或者直接的引用来获取编辑器内容
-
-    return QString();
+    // 直接从缓存中获取内容
+    return m_editorContents.value(filePath, QString());
 }
 
 void FileController::createBackup(const QString& filePath)
@@ -578,3 +611,51 @@ QDateTime FileController::getFileLastModified(const QString& filePath)
     QFileInfo fileInfo(filePath);
     return fileInfo.exists() ? fileInfo.lastModified() : QDateTime();
 }
+
+// 【新增】更新编辑器内容方法
+void FileController::updateEditorContent(const QString& filePath, const QString& content)
+{
+    if (filePath.isEmpty()) {
+        return;
+    }
+
+    // 【新增】性能监控
+    if (!m_updateTimers.contains(filePath)) {
+        m_updateTimers[filePath].start();
+        m_updateCounts[filePath] = 0;
+    }
+
+    m_updateCounts[filePath]++;
+
+    // 每50次更新报告一次性能数据
+    if (m_updateCounts[filePath] % 50 == 0) {
+        qint64 elapsed = m_updateTimers[filePath].elapsed();
+        double avgInterval = double(elapsed) / m_updateCounts[filePath];
+
+        LOG_DEBUG(QString("文件 %1 内容更新统计: %2 次更新，平均间隔 %3 ms")
+            .arg(QFileInfo(filePath).fileName())
+            .arg(m_updateCounts[filePath])
+            .arg(avgInterval, 0, 'f', 1));
+    }
+
+    // 只有内容真正变化时才更新
+    QString currentContent = m_editorContents.value(filePath);
+    if (currentContent == content) {
+        return; // 内容没有变化，跳过更新
+    }
+
+    m_editorContents[filePath] = content;
+
+    // 简单的修改状态检测 - 这里可以根据需要实现更复杂的逻辑
+    bool wasModified = m_fileModifiedStatus.value(filePath, false);
+    bool isModified = !content.isEmpty(); // 简化逻辑：有内容就认为已修改
+
+    if (wasModified != isModified) {
+        markFileModified(filePath, isModified);
+    }
+
+    LOG_DEBUG(QString("更新编辑器内容缓存: %1, 长度: %2")
+        .arg(QFileInfo(filePath).fileName())
+        .arg(content.length()));
+}
+

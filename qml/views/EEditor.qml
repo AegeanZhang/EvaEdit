@@ -16,10 +16,78 @@ Rectangle {
     property int currentLineNumber: -1
     property int rowHeight: Math.ceil(fontMetrics.lineSpacing)
 
+    function calculateDebounceDelay() {
+        var textLength = textArea.text.length;
+        var estimatedSize = textLength * 2; // UTF-16 大致估算
+        
+        if (estimatedSize < 1024 * 1024) return 100;        // < 1MB
+        if (estimatedSize < 10 * 1024 * 1024) return 300;   // < 10MB  
+        if (estimatedSize < 64 * 1024 * 1024) return 500;   // < 64MB
+        return 1000;                                         // >= 64MB
+    }
+
+    function performContentUpdate() {
+        contentUpdateTimer.stop();
+        throttleTimer.stop();
+        
+        if (root.currentFilePath) {
+            FileController.updateEditorContent(root.currentFilePath, textArea.text);
+            Logger.debug("内容已同步到 FileController: " + root.currentFilePath + 
+                        ", 长度: " + textArea.text.length);
+        }
+    }
+
+    function scheduleContentUpdate() {
+        // 动态计算延迟
+        var newDelay = calculateDebounceDelay();
+        contentUpdateTimer.interval = newDelay;
+        contentUpdateTimer.restart();
+        
+        // 如果节流定时器没有运行，启动它
+        if (!throttleTimer.running) {
+            throttleTimer.start();
+        }
+    }
+
+    function forceUpdateContent() {
+        contentUpdateTimer.stop();
+        throttleTimer.stop();
+        performContentUpdate();
+    }
+
     color: Colors.background
 
     onWidthChanged: textArea.update()
     onHeightChanged: textArea.update()
+
+    Connections {
+        target: FileController
+        
+        function onForceContentUpdateRequested(filePath) {
+            if (filePath === root.currentFilePath) {
+                root.forceUpdateContent();
+            }
+        }
+    }
+
+    // 防抖定时器
+    Timer {
+        id: contentUpdateTimer
+        interval: 300 // 默认值，会被动态调整
+        repeat: false
+        onTriggered: root.performContentUpdate()
+    }
+
+    // 节流定时器 - 强制最大延迟
+    Timer {
+        id: throttleTimer
+        interval: 2000 // 2秒强制更新
+        repeat: false
+        onTriggered: {
+            contentUpdateTimer.stop();
+            root.performContentUpdate();
+        }
+    }
 
     RowLayout {
         anchors.fill: parent
@@ -146,12 +214,20 @@ Rectangle {
                         // If the file is not new, we read the content from the file system.
                         text = FileSystemModel.readFile(root.currentFilePath);
                     }
+
+                    // 初始化时立即更新内容到 FileController
+                    root.forceUpdateContent();
                 }
 
                 // Grab the current line number from the C++ interface.
                 onCursorPositionChanged: {
                     root.currentLineNumber = FileSystemModel.currentLineNumber(
                         textArea.textDocument, textArea.cursorPosition)
+                }
+
+                // 【关键】文本变化时使用防抖+节流机制
+                onTextChanged: {
+                    root.scheduleContentUpdate();
                 }
 
                 color: Colors.textFile

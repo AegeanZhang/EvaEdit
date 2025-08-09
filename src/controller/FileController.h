@@ -7,6 +7,7 @@
 #include <QHash>
 #include <QtQml/qqmlregistration.h>
 #include <QtQml/qqmlengine.h>
+#include <QElapsedTimer>
 
 class ConfigCenter;
 
@@ -45,11 +46,17 @@ public:
     Q_INVOKABLE QString getFileDirectory(const QString& filePath);
     Q_INVOKABLE QDateTime getFileLastModified(const QString& filePath);
 
+    // 【新增】编辑器内容管理
+    Q_INVOKABLE void updateEditorContent(const QString& filePath, const QString& content);
+
 signals:
     void fileOpened(const QString& filePath, const QString& content);
     void fileSaved(const QString& filePath);
     void fileModifiedChanged(const QString& filePath, bool modified);
     void recentFilesChanged();
+
+    // 【新增】强制内容更新信号
+    void forceContentUpdateRequested(const QString& filePath);
 
 private:
     explicit FileController(QObject* parent = nullptr);
@@ -71,6 +78,11 @@ private:
     ConfigCenter* m_configCenter;
     QHash<QString, bool> m_fileModifiedStatus;      // 文件修改状态映射
     QHash<QString, QString> m_fileEncodings;        // 文件编码映射
+    QHash<QString, QString> m_editorContents;       // 【新增】编辑器当前内容缓存
+
+    // 【新增】性能监控
+    QHash<QString, QElapsedTimer> m_updateTimers;   // 更新计时器
+    QHash<QString, int> m_updateCounts;             // 更新计数器
 
     // 常量
     static const qint64 MAX_FILE_SIZE;               // 最大文件大小限制

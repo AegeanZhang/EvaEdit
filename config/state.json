@@ -1,62 +1,68 @@
 {
-    "recentFiles": [
-        "/path/to/recent/file1.cpp",
-        "/path/to/recent/file2.h",
-        "/path/to/recent/file3.qml",
-        "/path/to/recent/file4.txt",
-        "/path/to/recent/file5.json"
-    ],
+    "activeTabIndex": 0,
     "currentFilePath": "/path/to/current/file.cpp",
+    "fileTreeExpanded": {
+        "/path/to/project": true,
+        "/path/to/project/config": true,
+        "/path/to/project/qml": false,
+        "/path/to/project/src": true
+    },
+    "lastOpenDirectory": "/path/to/project",
+    "lastSaveDirectory": "/path/to/project/src",
     "openFiles": [
         {
-            "filePath": "/path/to/file1.cpp",
-            "fileName": "file1.cpp",
-            "isModified": false,
             "cursorPosition": {
-                "line": 45,
-                "column": 12
+                "column": 12,
+                "line": 45
             },
+            "fileName": "file1.cpp",
+            "filePath": "/path/to/file1.cpp",
+            "isModified": false,
             "scrollPosition": {
                 "x": 0,
                 "y": 120
             }
         },
         {
-            "filePath": "/path/to/file2.h",
-            "fileName": "file2.h",
-            "isModified": true,
             "cursorPosition": {
-                "line": 23,
-                "column": 8
+                "column": 8,
+                "line": 23
             },
+            "fileName": "file2.h",
+            "filePath": "/path/to/file2.h",
+            "isModified": true,
             "scrollPosition": {
                 "x": 0,
                 "y": 200
             }
         },
         {
-            "filePath": "",
-            "fileName": "新标签页 1",
-            "isModified": false,
             "cursorPosition": {
-                "line": 1,
-                "column": 1
+                "column": 1,
+                "line": 1
             },
+            "fileName": "新标签页 1",
+            "filePath": "",
+            "isModified": false,
             "scrollPosition": {
                 "x": 0,
                 "y": 0
             }
         }
     ],
-    "activeTabIndex": 0,
-    "sidebarVisible": true,
-    "sidebarWidth": 250,
-    "fileTreeExpanded": {
-        "/path/to/project": true,
-        "/path/to/project/src": true,
-        "/path/to/project/qml": false,
-        "/path/to/project/config": true
-    },
+    "recentFiles": [
+        "E:/OneDrive/桌面/2.txt",
+        "E:/OneDrive/桌面/1.txt",
+        "/path/to/recent/file1.cpp",
+        "/path/to/recent/file2.h",
+        "/path/to/recent/file3.qml",
+        "/path/to/recent/file4.txt",
+        "/path/to/recent/file5.json"
+    ],
+    "replaceHistory": [
+        "newName",
+        "updatedValue"
+    ],
     "searchHistory": [
         "ConfigCenter",
         "QString",
@@ -64,10 +70,6 @@
         "tabModel",
         "openFiles"
     ],
-    "replaceHistory": [
-        "newName",
-        "updatedValue"
-    ],
-    "lastOpenDirectory": "/path/to/project",
-    "lastSaveDirectory": "/path/to/project/src"
+    "sidebarVisible": true,
+    "sidebarWidth": 250
 }
