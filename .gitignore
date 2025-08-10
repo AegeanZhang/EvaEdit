@@ -80,3 +80,6 @@ Desktop.ini
 venv/
 ENV/
 env/
+
+# InnoSetup 生成的文件
+Output
