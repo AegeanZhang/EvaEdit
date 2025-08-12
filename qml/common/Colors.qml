@@ -1,8 +1,10 @@
 import QtQuick
 
+import EvaEdit
+
 pragma Singleton
 
-QtObject {
+/*QtObject {
     // 主背景颜色，包括菜单等
     readonly property color background: "#292828"
     readonly property color surface1: "#171819"
@@ -21,4 +23,54 @@ QtObject {
     readonly property color iconIndicator: "#D5B35D"
     readonly property color color1: "#A7B464"
     readonly property color color2: "#D3869B"
+}*/
+
+QtObject {
+    id: root
+
+    // 直接定义属性而非别名
+    property color background
+    property color surface1
+    property color surface2
+    property color text
+    property color textFile
+    property color disabledText
+    property color selection
+    property color active
+    property color inactive
+    property color folder
+    property color icon
+    property color iconIndicator
+    property color color1
+    property color color2
+
+    property QtObject currentTheme: null
+    
+    // 初始化时从ThemeManager获取颜色
+    Component.onCompleted: {        
+        // 监听主题变化
+        //ThemeManager.themeChanged.connect(updateColorsFromTheme)
+
+        //currentTheme = DarkTheme;
+        currentTheme = LightTheme;
+        updateColorsFromTheme()
+    }
+    
+    // 从ThemeManager更新颜色的函数
+    function updateColorsFromTheme() {
+        background = root.currentTheme.background
+        surface1 = root.currentTheme.surface1
+        surface2 = root.currentTheme.surface2
+        text = root.currentTheme.text
+        textFile = root.currentTheme.textFile
+        disabledText = root.currentTheme.disabledText
+        selection = root.currentTheme.selection
+        active = root.currentTheme.active
+        inactive = root.currentTheme.inactive
+        folder = root.currentTheme.folder
+        icon = root.currentTheme.icon
+        iconIndicator = root.currentTheme.iconIndicator
+        color1 = root.currentTheme.color1
+        color2 = root.currentTheme.color2
+    }
 }

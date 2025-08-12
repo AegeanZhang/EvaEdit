@@ -1,0 +1,15 @@
+{
+    "eva.editor.fontFamily": "Consolas, 'Courier New', monospace",
+    "eva.editor.fontSize": 14,
+    "eva.editor.showLineNumbers": true,
+    "eva.editor.tabSize": 4,
+    "eva.editor.wordWrap": false,
+    "eva.files.maxRecentFiles": 10,
+    "eva.files.restoreSession": true,
+    "eva.window.isFullScreen": false,
+    "eva.window.size": {
+        "height": 600,
+        "width": 1100
+    },
+    "eva.window.title": "${activeFileName} - EvaEdit"
+}

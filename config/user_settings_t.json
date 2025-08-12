@@ -1,0 +1,84 @@
+{
+    "eva.window.size": {
+        "width": 1280,
+        "height": 720
+    },
+    "eva.window.position": {
+        "x": 200,
+        "y": 150
+    },
+    "eva.window.isFullScreen": false,
+    "eva.window.title": "我的编辑器 - EvaEdit",
+    "eva.editor.showLineNumbers": true,
+    "eva.editor.fontSize": 16,
+    "eva.editor.fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace",
+    "eva.editor.wordWrap": true,
+    "eva.editor.tabSize": 2,
+    "eva.files.restoreSession": false,
+    "theme": {
+        "name": "dark",
+        "accentColor": "#007ACC",
+        "customColors": {
+            "background": "#1E1E1E",
+            "foreground": "#D4D4D4",
+            "selection": "#264F78"
+        }
+    },
+    "editor": {
+        "autoSave": true,
+        "autoSaveDelay": 2000,
+        "insertSpaces": true,
+        "detectIndentation": true,
+        "trimTrailingWhitespace": true,
+        "insertFinalNewline": true,
+        "highlightCurrentLine": true,
+        "showWhitespace": false,
+        "minimap": {
+            "enabled": true,
+            "side": "right",
+            "size": "small"
+        },
+        "folding": {
+            "enabled": true,
+            "showControls": "mouseover"
+        }
+    },
+    "search": {
+        "caseSensitive": false,
+        "wholeWord": false,
+        "regex": false,
+        "highlightMatches": true,
+        "showInlineResults": true
+    },
+    "extensions": {
+        "enabledLanguages": [
+            "cpp",
+            "qml",
+            "javascript",
+            "json",
+            "cmake",
+            "markdown"
+        ],
+        "autoCompleteEnabled": true,
+        "codeLensEnabled": true
+    },
+    "keybindings": {
+        "custom": {
+            "ctrl+s": "file.save",
+            "ctrl+shift+s": "file.saveAs",
+            "ctrl+o": "file.open",
+            "ctrl+n": "file.new",
+            "ctrl+w": "tab.close",
+            "ctrl+shift+t": "tab.reopenClosed",
+            "ctrl+f": "search.find",
+            "ctrl+h": "search.replace"
+        }
+    },
+    "ui": {
+        "showMenuBar": true,
+        "showStatusBar": true,
+        "showToolbar": false,
+        "compactMode": false,
+        "animations": true
+    }
+}

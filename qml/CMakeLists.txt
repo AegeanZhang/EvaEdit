@@ -3,6 +3,9 @@ set(QML_FILES_BASE
     Main.qml
 
     common/Colors.qml
+    themes/DarkTheme.qml
+    themes/LightTheme.qml
+    #themes/ThemeManager.qml
     
     # 组件文件
     components/EMenu.qml
