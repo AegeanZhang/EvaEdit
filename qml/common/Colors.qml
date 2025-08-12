@@ -55,6 +55,12 @@ QtObject {
         currentTheme = LightTheme;
         updateColorsFromTheme()
     }
+
+    function setTheme(theme) {
+        // 设置当前主题
+        currentTheme = theme;
+        updateColorsFromTheme();
+    }
     
     // 从ThemeManager更新颜色的函数
     function updateColorsFromTheme() {

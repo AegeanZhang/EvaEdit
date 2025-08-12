@@ -1,0 +1,133 @@
+{
+  "version": "1.0",
+  "title": "EvaEdit配置模式",
+  "description": "定义所有可用的配置项及其属性",
+  "properties": {
+    "eva.editor.theme": {
+      "title": "主题",
+      "description": "编辑器的配色主题",
+      "type": "string",
+      "default": "Dark",
+      "category": "编辑器",
+      "enum": [
+        "Dark", "Light"
+      ]
+    },
+    "eva.editor.fontFamily": {
+      "title": "字体族",
+      "description": "编辑器使用的字体族，支持备用字体",
+      "type": "string",
+      "default": "Consolas, 'Courier New', monospace",
+      "category": "编辑器",
+      "enum": [
+        "Consolas, 'Courier New', monospace",
+        "Monaco, 'Courier New', monospace",
+        "Source Code Pro, monospace",
+        "JetBrains Mono, monospace"
+      ]
+    },
+    "eva.editor.fontSize": {
+      "title": "字体大小",
+      "description": "编辑器字体大小，单位为像素",
+      "type": "integer",
+      "default": 14,
+      "minimum": 8,
+      "maximum": 72,
+      "category": "编辑器"
+    },
+    "eva.editor.showLineNumbers": {
+      "title": "显示行号",
+      "description": "在编辑器左侧显示行号",
+      "type": "boolean",
+      "default": true,
+      "category": "编辑器"
+    },
+    "eva.editor.tabSize": {
+      "title": "制表符宽度",
+      "description": "制表符对应的空格数量",
+      "type": "integer",
+      "default": 4,
+      "minimum": 1,
+      "maximum": 8,
+      "category": "编辑器"
+    },
+    "eva.editor.wordWrap": {
+      "title": "自动换行",
+      "description": "当行内容超出编辑器宽度时自动换行",
+      "type": "boolean",
+      "default": false,
+      "category": "编辑器"
+    },
+    "eva.files.maxRecentFiles": {
+      "title": "最近文件数量",
+      "description": "保存的最近打开文件的最大数量",
+      "type": "integer",
+      "default": 10,
+      "minimum": 1,
+      "maximum": 50,
+      "category": "文件管理"
+    },
+    "eva.files.restoreSession": {
+      "title": "恢复会话",
+      "description": "启动时自动恢复上次关闭时的文件",
+      "type": "boolean",
+      "default": true,
+      "category": "文件管理"
+    },
+    "eva.window.isFullScreen": {
+      "title": "全屏模式",
+      "description": "启动时使用全屏模式",
+      "type": "boolean",
+      "default": false,
+      "category": "窗口"
+    },
+    "eva.window.size": {
+      "title": "窗口大小",
+      "description": "窗口的默认宽度和高度",
+      "type": "object",
+      "category": "窗口",
+      "default": {
+        "width": 1100,
+        "height": 600
+      },
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 400,
+          "maximum": 3840,
+          "description": "窗口宽度(像素)"
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 300,
+          "maximum": 2160,
+          "description": "窗口高度(像素)"
+        }
+      }
+    },
+    "eva.window.title": {
+      "title": "窗口标题",
+      "description": "窗口标题模板，可使用变量：${activeFileName}, ${filePath}",
+      "type": "string",
+      "default": "${activeFileName} - EvaEdit",
+      "category": "窗口"
+    }
+  },
+  "categories": {
+    "编辑器": {
+      "title": "编辑器",
+      "description": "编辑器外观和行为设置",
+      "order": 1
+    },
+    "文件管理": {
+      "title": "文件管理",
+      "description": "文件操作和会话管理",
+      "order": 2
+    },
+    "窗口": {
+      "title": "窗口",
+      "description": "窗口显示和布局设置",
+      "order": 3
+    }
+  }
+}

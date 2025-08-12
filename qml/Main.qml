@@ -87,6 +87,21 @@ ApplicationWindow {
             Action { text: qsTr("撤销") }
             Action { text: qsTr("重做") }
         }
+        EMenu {
+            title: qsTr("外观")
+            // 二级菜单
+            EMenu {
+                title: qsTr("主题")
+                Action { 
+                    text: qsTr("Dark")
+                    onTriggered: Colors.setTheme(DarkTheme) 
+                }
+                Action { 
+                    text: qsTr("Light")
+                    onTriggered: Colors.setTheme(LightTheme) 
+                }
+            }
+        }
     }
 
     Component.onCompleted: {
