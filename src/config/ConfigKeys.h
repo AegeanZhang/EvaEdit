@@ -7,6 +7,9 @@
 class ConfigKeys
 {
 public:
+    // 外观相关配置
+    static const QString APPEARANCE_THEME;
+
     // 窗口相关配置
     static const QString WINDOW_SIZE;
     static const QString WINDOW_POSITION;
@@ -25,6 +28,7 @@ public:
     static const QString FILES_MAX_RECENT_FILES;
     
     // 状态相关配置
+    static const QString STATE_CURRENT_THEME;
     static const QString STATE_PREFIX;
     static const QString STATE_RECENT_FILES;
     static const QString STATE_CURRENT_FILE_PATH;

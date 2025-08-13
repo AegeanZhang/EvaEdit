@@ -124,6 +124,8 @@ void ConfigCenter::loadAllConfigs()
 
 void ConfigCenter::initializeSystemDefaults()
 {
+    m_systemSettings[ConfigKeys::APPEARANCE_THEME] = "Light";
+
     // 窗口默认设置
     m_systemSettings[ConfigKeys::WINDOW_SIZE] = QJsonObject{ {"width", 1100}, {"height", 600} };
     m_systemSettings[ConfigKeys::WINDOW_IS_FULL_SCREEN] = false;
@@ -249,6 +251,7 @@ void ConfigCenter::setValue(const QString& key, const QVariant& value, ConfigTyp
         else if (key == ConfigKeys::STATE_RECENT_FILES) emit recentFilesChanged();
         else if (key == ConfigKeys::STATE_CURRENT_FILE_PATH) emit currentFilePathChanged();
         else if (key == ConfigKeys::FILES_RESTORE_SESSION) emit restoreSessionChanged();
+        else if (key == ConfigKeys::STATE_CURRENT_THEME) emit currentThemeChanged();
 
         // 如果是用户设置或状态数据，自动保存
         if (type == ConfigType::UserSettings || type == ConfigType::StateData) {
@@ -321,6 +324,8 @@ void ConfigCenter::resetToSystemDefaults()
     saveConfig(ConfigType::StateData);
 
     // 发出所有配置变更信号
+    emit currentThemeChanged();
+
     emit windowSizeChanged();
     emit windowPositionChanged();
     emit isFullScreenChanged();
@@ -334,6 +339,16 @@ void ConfigCenter::resetToSystemDefaults()
 }
 
 // 以下是各配置项的访问器实现
+QString ConfigCenter::currentTheme() const
+{
+    return getValue(ConfigKeys::STATE_CURRENT_THEME, "Light").toString();
+}
+
+void ConfigCenter::setCurrentTheme(const QString& theme)
+{
+    setValue(ConfigKeys::STATE_CURRENT_THEME, theme, ConfigType::StateData);
+}
+
 
 QSize ConfigCenter::windowSize() const
 {

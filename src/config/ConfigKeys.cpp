@@ -1,5 +1,8 @@
 #include "ConfigKeys.h"
 
+// 外观相关配置
+const QString ConfigKeys::APPEARANCE_THEME = "eva.appearance.theme";
+
 // 窗口相关配置
 const QString ConfigKeys::WINDOW_SIZE = "eva.window.size";
 const QString ConfigKeys::WINDOW_POSITION = "eva.window.position";
@@ -18,6 +21,7 @@ const QString ConfigKeys::FILES_RESTORE_SESSION = "eva.files.restoreSession";
 const QString ConfigKeys::FILES_MAX_RECENT_FILES = "eva.files.maxRecentFiles";
 
 // 状态相关配置
+const QString ConfigKeys::STATE_CURRENT_THEME = "eva.state.currentTheme";
 const QString ConfigKeys::STATE_PREFIX = "eva.state.";
 const QString ConfigKeys::STATE_RECENT_FILES = "eva.state.recentFiles";
 const QString ConfigKeys::STATE_CURRENT_FILE_PATH = "eva.state.currentFilePath";

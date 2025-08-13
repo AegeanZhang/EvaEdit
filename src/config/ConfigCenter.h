@@ -16,6 +16,8 @@
 #include <QPoint>
 #include "ConfigKeys.h"
 #include "ConfigPaths.h"
+#include <QtQml/qqmlregistration.h>
+#include <QtQml/qqmlengine.h>
 
 class ConfigCenter : public QObject
 {
@@ -25,6 +27,13 @@ class ConfigCenter : public QObject
 
 public:
     static ConfigCenter* instance();
+
+    // QML 单例创建函数 - 关键修复
+    static ConfigCenter* create(QQmlEngine* qmlEngine, QJSEngine* jsEngine) {
+        Q_UNUSED(qmlEngine)
+            Q_UNUSED(jsEngine)
+            return instance();
+    }
 
     Q_ENUM(ConfigType)
 
@@ -46,6 +55,9 @@ public:
     Q_INVOKABLE void loadConfig(ConfigType type = ConfigType::UserSettings);
     Q_INVOKABLE void loadAllConfigs();
 
+    // 外观配置【已验证】
+    Q_PROPERTY(QString currentTheme READ currentTheme WRITE setCurrentTheme NOTIFY currentThemeChanged)
+
     // 提供给QML直接使用的配置项属性
     // 窗口配置
     Q_PROPERTY(QSize windowSize READ windowSize WRITE setWindowSize NOTIFY windowSizeChanged)
@@ -66,6 +78,9 @@ public:
     Q_PROPERTY(bool restoreSession READ restoreSession WRITE setRestoreSession NOTIFY restoreSessionChanged)
 
     // 配置属性的访问器
+    QString currentTheme() const;
+    void setCurrentTheme(const QString& theme);
+
     QSize windowSize() const;
     void setWindowSize(const QSize& size);
 
@@ -113,6 +128,8 @@ signals:
     void configChanged(const QString& key, ConfigType type);
 
     // 特定配置的信号
+    void currentThemeChanged();
+
     void windowSizeChanged();
     void windowPositionChanged();
     void isFullScreenChanged();

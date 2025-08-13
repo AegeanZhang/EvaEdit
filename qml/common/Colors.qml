@@ -52,7 +52,18 @@ QtObject {
         //ThemeManager.themeChanged.connect(updateColorsFromTheme)
 
         //currentTheme = DarkTheme;
-        currentTheme = LightTheme;
+        //currentTheme = LightTheme;
+        //updateColorsFromTheme()
+
+                // 从配置中加载保存的主题
+        var savedTheme = ConfigCenter.currentTheme
+        if (savedTheme === "Dark") {
+            currentTheme = DarkTheme
+        } else if (savedTheme === "Light") {
+            currentTheme = LightTheme  // 默认使用浅色主题
+        } else {
+            currentTheme = DarkTheme  // 如果没有保存的主题，使用深色主题
+        }
         updateColorsFromTheme()
     }
 
@@ -60,6 +71,18 @@ QtObject {
         // 设置当前主题
         currentTheme = theme;
         updateColorsFromTheme();
+        
+        // 保存主题到配置文件
+        var themeName = ""
+        if (theme === DarkTheme) {
+            themeName = "Dark"
+        } else if (theme === LightTheme) {
+            themeName = "Light"
+        }
+        
+        if (themeName !== "") {
+            ConfigCenter.currentTheme = themeName
+        }
     }
     
     // 从ThemeManager更新颜色的函数

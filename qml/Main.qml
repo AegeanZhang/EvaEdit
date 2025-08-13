@@ -46,90 +46,11 @@ ApplicationWindow {
     menuBar: EMenuBar {
         dragWindow: root
         infoText: root.getInfoText()
-        EMenu {
-            title: qsTr("文件(<u>F</u>)")
-            Action { 
-                //text: qsTr("新建(&N)")
-                text: AppConstants.newFile
-                shortcut: "Ctrl+N"
-                onTriggered: TabController.addNewTab();
-            }
-            Action { 
-                text: qsTr("打开")
-                shortcut: "Ctrl+O"
-                onTriggered: dialogs.openFileDialog()
-            }
-            Action {
-                text: qsTr("保存")
-                shortcut: "Ctrl+S"
-                onTriggered: ()=> {
-                    if(!FileController.saveFile()) {
-                        dialogs.openSaveAsDialog()
-                    }                    
-                }
-            }
-            Action {
-                text: qsTr("另存为")
-                shortcut: "Ctrl+Shift+S"
-                onTriggered: dialogs.openSaveAsDialog()
-                }
-            MenuSeparator {}
-            Action { 
-                text: qsTr("打开目录") 
-                //onTriggered: folderDialog.open()
-                onTriggered: dialogs.openFolderDialog() 
-            }
-            MenuSeparator {}
-            Action { text: qsTr("退出"); onTriggered: Qt.quit() }
-        }
-        EMenu {
-            title: qsTr("编辑")
-            Action { text: qsTr("撤销") }
-            Action { text: qsTr("重做") }
-        }
-        EMenu {
-            title: qsTr("外观")
-            // 二级菜单
-            EMenu {
-                title: qsTr("主题")
-                Action { 
-                    text: qsTr("Dark")
-                    onTriggered: Colors.setTheme(DarkTheme) 
-                }
-                Action { 
-                    text: qsTr("Light")
-                    onTriggered: Colors.setTheme(LightTheme) 
-                }
-            }
-        }
+        
     }
 
     Component.onCompleted: {
         Logger.info("窗口加载完成")
-    }
-
-    // 对话框组件
-    EDialogs {
-        id: dialogs
-        
-        onFolderSelected: function(folderPath) {
-            Logger.info("文件夹已选择: " + folderPath)
-            FileSystemModel.setDirectory(folderPath)
-            // 切换到文件浏览标签页
-            sidebar.currentTabIndex = 0
-        }
-        
-        onFileSelected: function(filePath) {
-            Logger.info("文件已选择: " + filePath)
-            // 使用 TabController 打开文件
-            TabController.addNewTab(filePath)
-        }
-        
-        onSaveAsSelected: function(filePath) {
-            Logger.info("另存为路径已选择: " + filePath)
-            // 处理另存为逻辑
-            FileController.saveAsFile(filePath)
-        }
     }
 
     RowLayout {

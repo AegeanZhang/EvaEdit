@@ -23,8 +23,8 @@ public:
     static TabController* create(QQmlEngine* qmlEngine, QJSEngine* jsEngine)
     {
         Q_UNUSED(qmlEngine)
-            Q_UNUSED(jsEngine)
-            return instance();
+        Q_UNUSED(jsEngine)
+        return instance();
     }
 
     static TabController* instance();

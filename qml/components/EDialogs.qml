@@ -59,7 +59,8 @@ Item {
         folder: Platform.StandardPaths.writableLocation(Platform.StandardPaths.DocumentsLocation)
         fileMode: Platform.FileDialog.OpenFile
         nameFilters: [
-            qsTr("所有支持的文件 (*.txt *.cpp *.h *.hpp *.c *.cc *.cxx *.hxx *.qml *.js *.json *.xml *.html *.css *.py *.java *.cs *.php *.rb *.go *.rs *.md *.log *.ini *.cfg *.conf)"),
+            qsTr("所有支持的文件 (*.txt *.cpp *.h *.hpp *.c *.cc *.cxx *.hxx *.qml *.js "
+                 + "*.json *.xml *.html *.css *.py *.java *.cs *.php *.rb *.go *.rs *.md *.log *.ini *.cfg *.conf)"),
             qsTr("文本文件 (*.txt)"),
             qsTr("C/C++文件 (*.cpp *.h *.hpp *.c *.cc *.cxx *.hxx)"),
             qsTr("QML/JavaScript文件 (*.qml *.js)"),
@@ -86,7 +87,8 @@ Item {
         folder: Platform.StandardPaths.writableLocation(Platform.StandardPaths.DocumentsLocation)
         fileMode: Platform.FileDialog.SaveFile
         nameFilters: [
-            qsTr("所有支持的文件 (*.txt *.cpp *.h *.hpp *.c *.cc *.cxx *.hxx *.qml *.js *.json *.xml *.html *.css *.py *.java *.cs *.php *.rb *.go *.rs *.md *.log *.ini *.cfg *.conf)"),
+            qsTr("所有支持的文件 (*.txt *.cpp *.h *.hpp *.c *.cc *.cxx *.hxx *.qml *.js "
+                + "*.json *.xml *.html *.css *.py *.java *.cs *.php *.rb *.go *.rs *.md *.log *.ini *.cfg *.conf)"),
             qsTr("文本文件 (*.txt)"),
             qsTr("C/C++文件 (*.cpp *.h *.hpp *.c *.cc *.cxx *.hxx)"),
             qsTr("QML/JavaScript文件 (*.qml *.js)"),

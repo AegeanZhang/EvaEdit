@@ -78,7 +78,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: root.tabBarHeight
 
-            // 🔥 绑定到控制器
+            // 绑定到控制器
             currentIndex: TabController.currentTabIndex
             onCurrentIndexChanged: TabController.currentTabIndex = currentIndex
             
@@ -179,7 +179,7 @@ Rectangle {
                         }
                     }
                     
-                    // 🔥 简化点击处理
+                    // 简化点击处理
                     onClicked: TabController.currentTabIndex = tabButton.tabIndex
                 }
             }
