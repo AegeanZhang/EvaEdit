@@ -14,7 +14,7 @@ Rectangle {
     id: root
 
     readonly property int tabBarHeight: 36
-    readonly property int tabButtonHeight: 32
+    readonly property int tabButtonHeight: 36
 
     // 公共属性
     property bool showLineNumbers: true
@@ -79,9 +79,6 @@ Rectangle {
             
             background: Rectangle {
                 color: Colors.surface2
-
-                //border.width: 2
-                //border.color: "red"
             }
             
             // 标签模型
@@ -132,7 +129,8 @@ Rectangle {
                     height: root.tabButtonHeight
 
                     // 添加垂直居中锚点
-                    anchors.verticalCenter: parent.verticalCenter
+                    //anchors.verticalCenter: parent.verticalCenter
+                    anchors.bottom: parent.bottom
                     
                     contentItem: RowLayout {
                         Text {
@@ -172,12 +170,13 @@ Rectangle {
                     
                     background: Rectangle {
                         anchors.fill: parent  // 确保背景填满按钮区域
+                        
                         color: tabBar.currentIndex === tabButton.tabIndex ? Colors.surface1 : Colors.surface2
 
                         Rectangle {
                             width: parent.width
-                            height: 2
-                            anchors.bottom: parent.bottom
+                            height: 3
+                            anchors.top: parent.top
                             color: tabBar.currentIndex === tabButton.tabIndex ? Colors.color1 : "transparent"
                         }
                     }
@@ -204,9 +203,6 @@ Rectangle {
                 contentItem: Rectangle {
                     color: "transparent"
                     anchors.fill: parent
-
-                    //border.width: 2
-                    //border.color: "yellow"
         
                     Image {
                         id: addIcon

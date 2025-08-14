@@ -11,6 +11,7 @@ set(QML_FILES_BASE
     components/EMenu.qml
     components/EMenuBar.qml
     components/EDialogs.qml
+    components/ResizeButton.qml
     
     # 视图文件
     views/EEditor.qml
@@ -20,7 +21,6 @@ set(QML_FILES_BASE
     views/EOutlineView.qml
     
     # 工具类文件
-    handlers/ResizeButton.qml
     handlers/WindowDragHandler.qml
 
     # 操作文件
