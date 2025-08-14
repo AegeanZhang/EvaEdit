@@ -1,6 +1,6 @@
 # 收集 QML 文件
 set(QML_FILES_BASE
-    Main.qml
+    common/EConstants.qml
 
     common/Colors.qml
     themes/DarkTheme.qml
@@ -25,6 +25,8 @@ set(QML_FILES_BASE
 
     # 操作文件
     actions/MenuActions.js
+
+    Main.qml
 )
 
 # 创建带前缀的文件列表

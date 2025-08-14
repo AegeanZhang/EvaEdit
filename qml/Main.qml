@@ -90,6 +90,9 @@ ApplicationWindow {
             Rectangle {
                 id: navigationView
 
+                border.width: EConstants.borderWidth
+                border.color: Colors.viewBorder
+
                 color: Colors.surface1
                 SplitView.preferredWidth: 250
                 SplitView.fillHeight: true
@@ -97,6 +100,7 @@ ApplicationWindow {
                 // selected buttons inside the sidebar.
                 StackLayout {
                     anchors.fill: parent
+                    anchors.margins: navigationView.border.width
                     currentIndex: sidebar.currentTabIndex
 
                     // Shows the files on the file system.

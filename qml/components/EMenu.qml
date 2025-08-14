@@ -72,7 +72,7 @@ Menu {
 
         // 设置圆角和边框,让菜单弹出时，更好的和其他View区分
         radius: 3
-        border.width: 0.5
-        border.color: "#454545"
+        border.width: EConstants.borderWidth
+        border.color: Colors.viewBorder
     }
 }

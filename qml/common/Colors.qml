@@ -7,14 +7,18 @@ pragma Singleton
 QtObject {
     id: root
 
-    // 直接定义属性而非别名
+    // 主背景颜色，包括菜单等
     property color background
+    // 编辑区背景颜色
     property color surface1
     property color surface2
+    property color viewBorder
+    // 字体的颜色
     property color text
     property color textFile
     property color disabledText
     property color selection
+    // 菜单项等，鼠标悬停时的颜色
     property color active
     property color activeText
     property color inactive
@@ -63,6 +67,7 @@ QtObject {
         background = root.currentTheme.background
         surface1 = root.currentTheme.surface1
         surface2 = root.currentTheme.surface2
+        viewBorder = root.currentTheme.viewBorder
         text = root.currentTheme.text
         textFile = root.currentTheme.textFile
         disabledText = root.currentTheme.disabledText

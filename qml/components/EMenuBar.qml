@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Basic
 
+//import EConstants as EConst
+
 import Logger
 
 import EvaEdit
@@ -167,6 +169,7 @@ MenuBar {
 
     background: Rectangle {
         color: Colors.surface2
+
         // Make the empty space drag the specified root window.
         WindowDragHandler {
             dragWindow: root.dragWindow
@@ -201,20 +204,20 @@ MenuBar {
     }
 
     EMenu {
-        title: qsTr("文件(<u>F</u>)")
+        title: EConstants.menuFile
         Action { 
             //text: qsTr("新建(&N)")
-            text: AppConstants.newFile
+            text: EConstants.menuFileNew
             shortcut: "Ctrl+N"
             onTriggered: TabController.addNewTab();
         }
         Action { 
-            text: qsTr("打开")
+            text: EConstants.menuFileOpen
             shortcut: "Ctrl+O"
             onTriggered: dialogs.openFileDialog()
         }
         Action {
-            text: qsTr("保存")
+            text: EConstants.menuFileSave
             shortcut: "Ctrl+S"
             onTriggered: ()=> {
                 if(!FileController.saveFile()) {
@@ -223,25 +226,47 @@ MenuBar {
             }
         }
         Action {
-            text: qsTr("另存为")
+            text: EConstants.menuFileSaveAs
             shortcut: "Ctrl+Shift+S"
             onTriggered: dialogs.openSaveAsDialog()
             }
         MenuSeparator {}
         //CustomMenuSeparator {}
         Action { 
-            text: qsTr("打开目录") 
+            text: EConstants.menuFileOpenFolder 
             //onTriggered: folderDialog.open()
             onTriggered: dialogs.openFolderDialog() 
         }
         MenuSeparator {}
         //CustomMenuSeparator {}
-        Action { text: qsTr("退出"); onTriggered: Qt.quit() }
+        EMenu {
+            title: EConstants.menuFileOpenResent
+            // 这里可以动态添加最近打开的文件
+            Repeater {
+                model: FileController.recentFiles
+                delegate: Action {
+                    text: modelData
+                    onTriggered: TabController.addNewTab(modelData)
+                }
+            }
+        }
+        MenuSeparator {}
+        Action {
+            text: EConstants.menuFileExit
+            onTriggered: Qt.quit()
+        }
     }
     EMenu {
-        title: qsTr("编辑")
-        Action { text: qsTr("撤销") }
-        Action { text: qsTr("重做") }
+        title: EConstants.menuEdit
+        Action { text: EConstants.menuEditUndo }
+        Action { text: EConstants.menuEditRedo }
+        MenuSeparator {}
+        Action { text: EConstants.menuEditCut }
+        Action { text: EConstants.menuEditCopy }
+        Action { text: EConstants.menuEditPaste }
+        MenuSeparator {}
+        Action { text: EConstants.menuEditFind }
+        Action { text: EConstants.menuEditReplace }
     }
     EMenu {
         title: qsTr("外观")
@@ -271,6 +296,11 @@ MenuBar {
                 }
             }
         }
+    }
+    EMenu {
+        title: qsTr("帮助")
+        Action { text: qsTr("检查更新") }
+        Action { text: qsTr("关于") }
     }
 
     // 对话框组件

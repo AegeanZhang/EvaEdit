@@ -22,19 +22,10 @@ Rectangle {
     // 信号
     signal filePathChanged(string filePath)
 
-    // 🔥 纯UI函数（不包含业务逻辑）
-    function setFocusToTab(tabIndex) {
-        Qt.callLater(function() {
-            if (tabIndex >= 0 && tabIndex < editorRepeater.count) {
-                var editor = editorRepeater.itemAt(tabIndex);
-                if (editor && editor.setFocus) {
-                    editor.setFocus();
-                }
-            }
-        });
-    }
-
     color: Colors.surface1
+    // 添加边框
+    border.width: EConstants.borderWidth
+    border.color: Colors.viewBorder
   
     Connections {
         target: TabController
@@ -52,7 +43,14 @@ Rectangle {
         }
         
         function onFocusRequested(tabIndex) {
-            setFocusToTab(tabIndex);
+            Qt.callLater(function() {
+                if (tabIndex >= 0 && tabIndex < editorStack.count) {
+                    var editor = editorStack.itemAt(tabIndex);
+                    if (editor && editor.setFocus) {
+                        editor.setFocus();
+                    }
+                }
+            });
         }
 
         function onTabAdded(index, filePath) {
@@ -69,6 +67,7 @@ Rectangle {
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.margins: root.border.width
         spacing: 0
         
         // 标签栏
@@ -77,10 +76,6 @@ Rectangle {
 
             Layout.fillWidth: true
             Layout.preferredHeight: root.tabBarHeight
-
-            // 绑定到控制器
-            currentIndex: TabController.currentTabIndex
-            onCurrentIndexChanged: TabController.currentTabIndex = currentIndex
             
             background: Rectangle {
                 color: Colors.surface2
@@ -92,6 +87,14 @@ Rectangle {
             // 标签模型
             ListModel {
                 id: tabModel
+            }
+
+            // 监听 TabController 的索引变化并更新 TabBar
+            Connections {
+                target: TabController
+                function onCurrentTabIndexChanged() {
+                    tabBar.currentIndex = TabController.currentTabIndex;
+                }
             }
             
             Component.onCompleted: {
@@ -107,6 +110,9 @@ Rectangle {
                         });
                     }
                 }
+
+                // 初始化 TabBar 的当前索引
+                tabBar.currentIndex = TabController.currentTabIndex;
             }
             
             Repeater {
@@ -168,9 +174,6 @@ Rectangle {
                         anchors.fill: parent  // 确保背景填满按钮区域
                         color: tabBar.currentIndex === tabButton.tabIndex ? Colors.surface1 : Colors.surface2
 
-                        //border.width: 2
-                        //border.color: "green"
-
                         Rectangle {
                             width: parent.width
                             height: 2
@@ -179,8 +182,11 @@ Rectangle {
                         }
                     }
                     
-                    // 简化点击处理
-                    onClicked: TabController.currentTabIndex = tabButton.tabIndex
+                    onClicked: {
+                        if (TabController.currentTabIndex !== tabButton.tabIndex) {
+                            TabController.currentTabIndex = tabButton.tabIndex;
+                        }
+                    }
                 }
             }
             

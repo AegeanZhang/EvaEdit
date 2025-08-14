@@ -12,6 +12,8 @@ Rectangle {
     readonly property int tabBarSpacing: 20
 
     color: Colors.surface2
+    border.width: EConstants.borderWidth
+    border.color: Colors.viewBorder
 
     component SidebarEntry: Button {
         id: sidebarButton

@@ -1,5 +1,8 @@
 module EvaEdit
 
+# 界面元素的常量
+singleton EConstants 1.0 common/EConstants.qml
+
 # 主题相关
 singleton DarkTheme 1.0 themes/DarkTheme.qml
 singleton LightTheme 1.0 themes/LightTheme.qml

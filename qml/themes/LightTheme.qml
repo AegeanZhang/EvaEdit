@@ -8,6 +8,7 @@ QtObject {
     readonly property color surface1: "#FFFFFF"
     // 侧边栏和编辑器背景颜色
     readonly property color surface2: "#F1F3F4"
+    readonly property color viewBorder: "#454545"
     // 字体的颜色，深色
     readonly property color text: "#202124"
     readonly property color textFile: "#1A1A1A"
