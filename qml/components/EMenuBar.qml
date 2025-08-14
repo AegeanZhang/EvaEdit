@@ -173,6 +173,33 @@ MenuBar {
         }
     }
 
+    // 自定义分隔线组件
+    /*component CustomMenuSeparator: MenuSeparator {
+        contentItem: Rectangle {
+            implicitWidth: 180  // 显式设置宽度
+            implicitHeight: 1   // 设置分隔线高度
+            height: 1           // 确保高度为1
+            color: Colors.inactive
+            anchors.horizontalCenter: parent.horizontalCenter  // 水平居中
+        }
+        height: 10  // 设置分隔线整体高度，包含上下间距
+        padding: 4  // 上下内边距
+    }*/
+    component CustomMenuSeparator: MenuSeparator {
+        topPadding: 4
+        bottomPadding: 4
+
+        contentItem: Rectangle {
+            //width: parent.width    // 跟随菜单宽度
+            width: 180 // 显式设置宽度
+            height: 20
+            //color: Colors.inactive // 自定义颜色
+            color: "#FFFFFF" // 使用禁用文本颜色
+            //anchors.horizontalCenter: parent.horizontalCenter // 水平居中
+            visible: true
+        }
+    }
+
     EMenu {
         title: qsTr("文件(<u>F</u>)")
         Action { 
@@ -201,12 +228,14 @@ MenuBar {
             onTriggered: dialogs.openSaveAsDialog()
             }
         MenuSeparator {}
+        //CustomMenuSeparator {}
         Action { 
             text: qsTr("打开目录") 
             //onTriggered: folderDialog.open()
             onTriggered: dialogs.openFolderDialog() 
         }
         MenuSeparator {}
+        //CustomMenuSeparator {}
         Action { text: qsTr("退出"); onTriggered: Qt.quit() }
     }
     EMenu {
@@ -220,12 +249,26 @@ MenuBar {
         EMenu {
             title: qsTr("主题")
             Action { 
+                id: darkThemeAction
                 text: qsTr("Dark")
-                onTriggered: Colors.setTheme(DarkTheme) 
+                checkable: true
+                checked: Colors.currentTheme === DarkTheme  // 根据当前主题状态设置选中
+                onTriggered: {
+                    Colors.setTheme(DarkTheme)
+                    checked = true  // 确保选中状态正确
+                    lightThemeAction.checked = false  // 取消另一个主题的选中状态
+                }
             }
             Action { 
+                id: lightThemeAction
                 text: qsTr("Light")
-                onTriggered: Colors.setTheme(LightTheme) 
+                checkable: true
+                checked: Colors.currentTheme === LightTheme  // 根据当前主题状态设置选中
+                onTriggered: {
+                    Colors.setTheme(LightTheme)
+                    checked = true  // 确保选中状态正确
+                    darkThemeAction.checked = false  // 取消另一个主题的选中状态
+                }
             }
         }
     }

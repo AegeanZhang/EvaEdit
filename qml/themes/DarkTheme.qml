@@ -13,8 +13,15 @@ QtObject {
     //readonly property color textFile: "#E1D2B7"
     readonly property color textFile: "#D9D9D6"
     readonly property color disabledText: "#2C313A"
-    readonly property color selection: "#4B4A4A"
-    readonly property color active: "#292828"
+
+    readonly property color selection: "#4B4A4A"  // 灰色
+    //readonly property color selection: "#2B79D7"  // 蓝色
+
+    // 菜单项等，鼠标悬停时的颜色
+    //readonly property color active: "#292828"
+    readonly property color active: "#2B79D7"
+    readonly property color activeText: "#fefefe"
+
     readonly property color inactive: "#383737"
     readonly property color folder: "#383737"
     readonly property color icon: "#383737"
