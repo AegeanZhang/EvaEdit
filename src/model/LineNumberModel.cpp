@@ -1,6 +1,9 @@
 #include "LineNumberModel.h"
 
 #include <QQmlInfo>
+#include <QFontMetrics>
+
+#include <algorithm>
 
 /*!
     When using an integer model based on the line count of the editor,
@@ -53,4 +56,14 @@ QVariant LineNumberModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     return index.row();
+}
+
+int LineNumberModel::calculateRowHeight(const QFont& font)
+{
+    QFontMetrics fm(font);
+    int asciiHeight = fm.boundingRect(QStringLiteral("A")).height();
+    int chineseHeight = fm.boundingRect(QStringLiteral("中")).height();
+    int specialHeight = fm.boundingRect(QStringLiteral("😀")).height();
+
+    return std::max({ asciiHeight, chineseHeight, specialHeight });
 }

@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QQmlEngine>
+#include <QFont>
 
 class LineNumberModel : public QAbstractListModel
 {
@@ -18,6 +19,8 @@ public:
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+
+    Q_INVOKABLE int calculateRowHeight(const QFont& font);
 
 signals:
     void lineCountChanged();

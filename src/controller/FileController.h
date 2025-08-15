@@ -14,8 +14,8 @@ class ConfigCenter;
 class FileController : public QObject
 {
     Q_OBJECT
-        QML_ELEMENT
-        QML_SINGLETON
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
     static FileController* create(QQmlEngine* qmlEngine, QJSEngine* jsEngine);

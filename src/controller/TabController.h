@@ -10,14 +10,14 @@
 class TabController : public QObject
 {
     Q_OBJECT
-        QML_ELEMENT
-        QML_SINGLETON
+    QML_ELEMENT
+    QML_SINGLETON
 
-        // 属性
-        Q_PROPERTY(QStringList openFiles READ openFiles NOTIFY openFilesChanged)
-        Q_PROPERTY(int currentTabIndex READ currentTabIndex WRITE setCurrentTabIndex NOTIFY currentTabIndexChanged)
-        Q_PROPERTY(QString currentFilePath READ currentFilePath NOTIFY currentFilePathChanged)
-        Q_PROPERTY(int tabCount READ tabCount NOTIFY tabCountChanged)
+    // 属性
+    Q_PROPERTY(QStringList openFiles READ openFiles NOTIFY openFilesChanged)
+    Q_PROPERTY(int currentTabIndex READ currentTabIndex WRITE setCurrentTabIndex NOTIFY currentTabIndexChanged)
+    Q_PROPERTY(QString currentFilePath READ currentFilePath NOTIFY currentFilePathChanged)
+    Q_PROPERTY(int tabCount READ tabCount NOTIFY tabCountChanged)
 
 public:
     static TabController* create(QQmlEngine* qmlEngine, QJSEngine* jsEngine)

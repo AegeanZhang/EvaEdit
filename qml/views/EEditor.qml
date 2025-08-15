@@ -14,12 +14,8 @@ Rectangle {
     required property bool showLineNumbers
     property alias text: textArea
     property int currentLineNumber: -1
-    //property int rowHeight: Math.ceil(fontMetrics.lineSpacing)
-    //property int rowHeight: Math.ceil(fontMetrics.lineSpacing) + fontMetrics.leading
-    property int rowHeight: Math.ceil(fontMetrics.height + fontMetrics.leading)
-    //property int rowHeight: Math.ceil(textArea.cursorRectangle.height)
-    /*property int rowHeight: Math.ceil(textArea.cursorRectangle.height > 0 
-        ? textArea.cursorRectangle.height : fontMetrics.height)*/
+
+    property int rowHeight: lineNumberModel.calculateRowHeight(textArea.font)
 
     function calculateDebounceDelay() {
         var textLength = textArea.text.length;
@@ -122,16 +118,13 @@ Rectangle {
             visible: textArea.text !== "" && root.showLineNumbers
             clip: true
 
-            //contentHeight: editorFlickable.contentHeight
-            // 确保滚动边界与编辑器一致
-            //boundsBehavior: editorFlickable.boundsBehavior
-
             Column {
                 anchors.fill: parent
                 Repeater {
                     id: repeatedLineNumbers
 
                     model: LineNumberModel {
+                        id: lineNumberModel
                         lineCount: textArea.text !== "" ? textArea.lineCount : 0
                     }
 
@@ -153,9 +146,6 @@ Rectangle {
 
                             color: (root.currentLineNumber === parent.index)
                                     ? Colors.iconIndicator : Qt.darker(Colors.text, 2)
-                            //color: Colors.text
-                            //font: textArea.font
-                            font.pixelSize: textArea.font.pixelSize 
                         }
                         Rectangle {
                             id: indicator
@@ -245,7 +235,7 @@ Rectangle {
                         textArea.textDocument, textArea.cursorPosition)
                 }
                 
-                // 【关键】文本变化时使用防抖+节流机制
+                // 文本变化时使用防抖+节流机制
                 onTextChanged: {
                     root.scheduleContentUpdate();
                 }
