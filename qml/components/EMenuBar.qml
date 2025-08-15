@@ -206,7 +206,6 @@ MenuBar {
     EMenu {
         title: EConstants.menuFile
         Action { 
-            //text: qsTr("新建(&N)")
             text: EConstants.menuFileNew
             shortcut: "Ctrl+N"
             onTriggered: TabController.addNewTab();
@@ -269,13 +268,21 @@ MenuBar {
         Action { text: EConstants.menuEditReplace }
     }
     EMenu {
-        title: qsTr("外观")
+        title: EConstants.menuView
+        Action { 
+            text: EConstants.menuViewShowLineNumbers
+            checkable: true
+            checked: root.dragWindow.showLineNumbers  // 根据当前状态设置选中
+            onTriggered: {
+                root.dragWindow.showLineNumbers = checked  // 切换行号显示状态
+            }
+        }
         // 二级菜单
         EMenu {
-            title: qsTr("主题")
+            title: EConstants.menuViewTheme
             Action { 
                 id: darkThemeAction
-                text: qsTr("Dark")
+                text: EConstants.menuViewThemeDark
                 checkable: true
                 checked: Colors.currentTheme === DarkTheme  // 根据当前主题状态设置选中
                 onTriggered: {
@@ -286,7 +293,7 @@ MenuBar {
             }
             Action { 
                 id: lightThemeAction
-                text: qsTr("Light")
+                text: EConstants.menuViewThemeLight
                 checkable: true
                 checked: Colors.currentTheme === LightTheme  // 根据当前主题状态设置选中
                 onTriggered: {
@@ -298,9 +305,10 @@ MenuBar {
         }
     }
     EMenu {
-        title: qsTr("帮助")
-        Action { text: qsTr("检查更新") }
-        Action { text: qsTr("关于") }
+        title: EConstants.menuHelp
+        Action { text: EConstants.menuHelpCheckForUpdate }
+        MenuSeparator {}
+        Action { text: EConstants.menuHelpAbout }
     }
 
     // 对话框组件

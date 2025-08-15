@@ -64,7 +64,9 @@ Rectangle {
 
             contentItem: Text {
                 text: treeDelegate.fileName
-                color: Colors.text
+                color: hoverHandler.hovered && treeDelegate.index !== fileSystemTreeView.lastIndex
+                        ? Colors.activeText
+                        : Colors.text
             }
 
             background: Rectangle {

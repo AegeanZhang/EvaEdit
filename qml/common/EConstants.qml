@@ -27,11 +27,16 @@ QtObject {
 
     // 菜单 - 视图
     property string menuView: qsTr("View")
+    property string menuViewTheme: qsTr("Theme")
+    property string menuViewThemeDark: qsTr("Dark Theme")
+    property string menuViewThemeLight: qsTr("Light Theme")
+    property string menuViewShowLineNumbers: qsTr("Show Line Numbers")
     property string menuViewTogglePreview: qsTr("Toggle Preview")
     property string menuViewSplitView: qsTr("Split View")
 
     // 菜单 - 帮助
     property string menuHelp: qsTr("Help")
+    property string menuHelpCheckForUpdate: qsTr("Check For Update")
     property string menuHelpAbout: qsTr("About")
 
     // UI 常量
