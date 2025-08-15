@@ -24,12 +24,19 @@ Menu {
             color: "transparent"
             
             // 显示选中标记（当菜单项是可勾选且被勾选的状态）
-            Text {
+            Button {
                 anchors.centerIn: parent
-                text: "✓"
-                font.pixelSize: 14
-                color: Colors.text
+                width: 16
+                height: 16
+                icon.source: "../../resources/icons/check.svg"
+                icon.width: 14
+                icon.height: 14
+                icon.color: Colors.iconButton
+                display: AbstractButton.IconOnly
                 visible: menuItem.checkable && menuItem.checked
+                background: null
+                padding: 0
+                enabled: false // 使其不响应点击
             }
 
             // 如果有图标则显示图标

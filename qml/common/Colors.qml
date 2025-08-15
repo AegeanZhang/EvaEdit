@@ -25,6 +25,8 @@ QtObject {
     property color folder
     property color icon
     property color iconIndicator
+    // 定义使用icon作为Button的颜色
+    property color iconButton
     property color color1
     property color color2
 
@@ -78,6 +80,7 @@ QtObject {
         folder = root.currentTheme.folder
         icon = root.currentTheme.icon
         iconIndicator = root.currentTheme.iconIndicator
+        iconButton = root.currentTheme.iconButton
         color1 = root.currentTheme.color1
         color2 = root.currentTheme.color2
     }

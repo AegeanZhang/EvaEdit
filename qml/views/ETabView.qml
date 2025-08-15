@@ -141,30 +141,25 @@ Rectangle {
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
-                        
-                        // 关闭按钮
-                        Rectangle {
+
+                        Button {
                             width: 16
                             height: 16
-                            radius: 8
-                            color: closeMouseArea.containsMouse ? Colors.color2 : "transparent"
-                            
-                            Image {
-                                id: closeIcon
-                                anchors.centerIn: parent
-                                width: 12
-                                height: 12
-                                source: "../../resources/icons/close_btn.svg"
-                                sourceSize: Qt.size(12, 12)
-                                visible: true 
-                            }
-
-                            MouseArea {
-                                id: closeMouseArea
+    
+                            icon.source: "../../resources/icons/close_btn.svg"
+                            icon.width: 12
+                            icon.height: 12
+                            icon.color: Colors.iconButton
+    
+                            display: AbstractButton.IconOnly
+                            background: Rectangle {
                                 anchors.fill: parent
-                                hoverEnabled: true
-                                onClicked: TabController.closeTab(tabButton.tabIndex)
+                                radius: 8
+                                color: parent.hovered ? Colors.color2 : "transparent"
                             }
+    
+                            onClicked: TabController.closeTab(tabButton.tabIndex)
+                            hoverEnabled: true
                         }
                     }
                     
@@ -200,20 +195,12 @@ Rectangle {
 
                 onClicked: TabController.addNewTab()
 
-                contentItem: Rectangle {
-                    color: "transparent"
-                    anchors.fill: parent
-        
-                    Image {
-                        id: addIcon
-                        anchors.centerIn: parent
-                        width: 14
-                        height: 14
-                        source: "../../resources/icons/add_btn.svg"
-                        sourceSize: Qt.size(14, 14)
-                        visible: true
-                    }
-                }
+                icon.source: "../../resources/icons/add_btn.svg"
+                icon.width: 14
+                icon.height: 14
+                icon.color: Colors.iconButton  // 直接设置图标颜色
+
+                display: AbstractButton.IconOnly  // 只显示图标
                 
                 background: Rectangle {
                     anchors.fill: parent

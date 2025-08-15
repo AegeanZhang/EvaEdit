@@ -51,6 +51,8 @@ qt_add_qml_module(EvaEdit
         # TabView 部分的icons
         resources/icons/close_btn.svg
         resources/icons/add_btn.svg
+        # 菜单部分的icons
+        resources/icons/check.svg
     SOURCES
         ${RELATIVE_MODEL_SOURCES}
         ${RELATIVE_CONTROLLER_SOURCES}
