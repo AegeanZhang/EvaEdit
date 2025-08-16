@@ -225,9 +225,18 @@ Rectangle {
                         text = FileSystemModel.readFile(root.currentFilePath);
                     }
 
+                    lineNumberModel.setFixedLineHeight(textArea.textDocument, root.rowHeight);
                     // 初始化时立即更新内容到 FileController
                     root.forceUpdateContent();
                 }
+
+                // 监听行高变化
+                /*Connections {
+                    target: root
+                    function onRowHeightChanged() {
+                        lineNumberModel.setFixedLineHeight(textArea.textDocument, root.rowHeight);
+                    }
+                }*/
 
                 // Grab the current line number from the C++ interface.
                 onCursorPositionChanged: {

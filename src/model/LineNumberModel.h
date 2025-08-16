@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 #include <QQmlEngine>
 #include <QFont>
+#include <QQuickTextDocument>
 
 class LineNumberModel : public QAbstractListModel
 {
@@ -21,6 +22,7 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
     Q_INVOKABLE int calculateRowHeight(const QFont& font);
+    Q_INVOKABLE void setFixedLineHeight(QQuickTextDocument* textDocument, int height);
 
 signals:
     void lineCountChanged();
