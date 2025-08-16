@@ -18,6 +18,7 @@ class LayoutEngine;
 class CursorManager;
 class SelectionManager;
 class SyntaxHighlighter;
+class InputManager;
 class QMouseEvent;
 class QKeyEvent;
 class QWheelEvent;
@@ -86,6 +87,41 @@ public:
     Q_INVOKABLE QList<int> getVisibleLines() const;
     Q_INVOKABLE void ensurePositionVisible(int position);
     Q_INVOKABLE void ensureLineVisible(int lineNumber);
+public:
+    // 命令处理方法
+    Q_INVOKABLE void handleMoveCursorLeft();
+    Q_INVOKABLE void handleMoveCursorRight();
+    Q_INVOKABLE void handleMoveCursorUp();
+    Q_INVOKABLE void handleMoveCursorDown();
+    Q_INVOKABLE void handleMoveCursorWordLeft();
+    Q_INVOKABLE void handleMoveCursorWordRight();
+    Q_INVOKABLE void handleMoveCursorLineStart();
+    Q_INVOKABLE void handleMoveCursorLineEnd();
+    Q_INVOKABLE void handleMoveCursorDocumentStart();
+    Q_INVOKABLE void handleMoveCursorDocumentEnd();
+
+    Q_INVOKABLE void handleSelectLeft();
+    Q_INVOKABLE void handleSelectRight();
+    Q_INVOKABLE void handleSelectUp();
+    Q_INVOKABLE void handleSelectDown();
+    Q_INVOKABLE void handleSelectAll();
+    Q_INVOKABLE void handleSelectWord();
+    Q_INVOKABLE void handleSelectLine();
+
+    Q_INVOKABLE void handleInsertText(const QString& text);
+    Q_INVOKABLE void handleNewLine();
+    Q_INVOKABLE void handleTab();
+    Q_INVOKABLE void handleDeleteLeft();
+    Q_INVOKABLE void handleDeleteRight();
+    Q_INVOKABLE void handleDeleteWordLeft();
+    Q_INVOKABLE void handleDeleteWordRight();
+
+    Q_INVOKABLE void handleCut();
+    Q_INVOKABLE void handleCopy();
+    Q_INVOKABLE void handlePaste();
+
+    Q_INVOKABLE void handleUndo();
+    Q_INVOKABLE void handleRedo();
 
 signals:
     void documentChanged();
@@ -122,6 +158,7 @@ private:
     CursorManager* m_cursorManager = nullptr;
     SelectionManager* m_selectionManager = nullptr;
     SyntaxHighlighter* m_syntaxHighlighter = nullptr;
+    InputManager* m_inputManager = nullptr;
 
     bool m_showLineNumbers = true;
     bool m_wordWrap = false;
@@ -150,11 +187,45 @@ private:
     QRectF textArea() const;
     QRectF lineNumberArea() const;
     QList<QRect> getSelectionRects(const SelectionRange& selection) const;
-    void handleVerticalMovement(QKeyEvent* event);
     int getClickCount(QMouseEvent* event);
+
+    // 移动方向枚举
+    enum class MoveDirection {
+        Left,
+        Right,
+        Up,
+        Down
+    };
+
+    // 移动单位枚举
+    enum class MoveUnit {
+        Character,    // 字符级
+        Word,         // 单词级
+        Line,         // 行级（到行首/行尾）
+        Page,         // 页面级
+        Document      // 文档级
+    };
+
+    void handleVerticalMovement(QKeyEvent* event);
+    void handleHorizontalMovement(QKeyEvent* event);
+    // 统一的移动处理
+    void handleMovement(MoveDirection direction, bool extend, MoveUnit unit = MoveUnit::Character);
+
+    int calculateMovementTarget(int currentPos, MoveDirection direction, MoveUnit unit) const;
+    int calculateCharacterMovement(int currentPos, MoveDirection direction) const;
+    int calculateWordMovement(int currentPos, MoveDirection direction) const;
+    int calculateLineMovement(int currentPos, MoveDirection direction) const;
+    int calculatePageMovement(int currentPos, MoveDirection direction) const;
+    int calculateDocumentMovement(int currentPos, MoveDirection direction) const;
+
+    int calculateVerticalCharacterMovement(int currentPos, MoveDirection direction) const;
+    int findWordBoundary(int position, bool forward) const;
+    int findParagraphBoundary(int position, bool forward) const;
+    bool isWordCharacter(QChar ch) const;
 
     void initializeComponents();
     void connectSignals();
+    void setupInputManager();
 };
 
 #endif // TEXT_RENDERER_H
