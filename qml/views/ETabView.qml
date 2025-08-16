@@ -218,13 +218,33 @@ Rectangle {
             
             Repeater {
                 model: tabModel
-                delegate: EEditor {
+                /*delegate: EEditor {
                     required property int index
                     required property var model
                     
                     color: Colors.surface1
                     showLineNumbers: root.showLineNumbers
                     currentFilePath: model.filePath
+                }*/
+                delegate: ETextEditor {
+                    required property int index
+                    required property var model
+                    
+                    currentFilePath: model.filePath
+                    showLineNumbers: root.showLineNumbers
+                    color: Colors.surface1
+                    
+                    // 处理另存为请求
+                    onSaveAsRequested: {
+                        // 这里可以触发文件对话框
+                        // FileController.showSaveAsDialog(model.filePath);
+                    }
+                    
+                    // 监听内容修改
+                    onContentModified: {
+                        // 可以更新标签页的修改指示器
+                        // 例如在文件名后加 "*" 
+                    }
                 }
             }
         }

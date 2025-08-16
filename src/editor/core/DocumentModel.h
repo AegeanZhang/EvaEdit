@@ -7,6 +7,7 @@
 #include <QUrl>
 #include <QDateTime>
 #include <QStringConverter>
+#include <qqmlintegration.h>
 #include <memory>
 
 // 文档变更事件
@@ -20,6 +21,7 @@ struct TextChange {
 // 文档模型
 class DocumentModel : public QObject {
     Q_OBJECT
+        QML_ELEMENT
 
 public:
     enum DocumentType {

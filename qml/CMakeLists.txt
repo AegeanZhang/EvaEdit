@@ -15,6 +15,7 @@ set(QML_FILES_BASE
     
     # 视图文件
     views/EEditor.qml
+    views/ETextEditor.qml
     views/EFileView.qml
     views/ESidebar.qml
     views/ETabView.qml
