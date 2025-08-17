@@ -102,6 +102,7 @@ void DocumentModel::setReadOnly(bool readOnly)
 
     m_readOnly = readOnly;
     // 只读状态变化可能需要更新UI
+    emit readOnlyChanged(m_readOnly);
 }
 
 // ==============================================================================

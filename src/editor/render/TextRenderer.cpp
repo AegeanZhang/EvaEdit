@@ -21,12 +21,17 @@
 #include <QFileInfo>
 #include <QElapsedTimer>
 
+static const int TEXT_LEFT_PADDING = 5; // 文本左侧内边距
+
 TextRenderer::TextRenderer(QQuickItem* parent)
     : QQuickPaintedItem(parent)
-    , m_font("Consolas", 12)
     , m_backgroundColor(QColor(248, 249, 250)) // 浅色背景
     , m_textColor(QColor(36, 41, 47))          // 深色文字
 {
+    // 明确创建字体，只设置点大小
+    m_font = QFont("Consolas");
+    m_font.setPixelSize(12);
+
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
     setFlag(QQuickItem::ItemAcceptsInputMethod, true);
@@ -146,22 +151,6 @@ void TextRenderer::setDocument(DocumentModel* document)
     emit documentChanged();
 }
 
-bool TextRenderer::showLineNumbers() const
-{
-    return m_showLineNumbers;
-}
-
-void TextRenderer::setShowLineNumbers(bool show)
-{
-    if (m_showLineNumbers == show)
-        return;
-
-    m_showLineNumbers = show;
-    updateLineNumberWidth();
-    update();
-    emit lineNumbersChanged();
-}
-
 bool TextRenderer::wordWrap() const
 {
     return m_wordWrap;
@@ -269,6 +258,66 @@ void TextRenderer::setScrollY(int y)
     emit scrollYChanged();
 }
 
+
+bool TextRenderer::showLineNumbers() const
+{
+    return m_showLineNumbers;
+}
+
+void TextRenderer::setShowLineNumbers(bool show)
+{
+    if (m_showLineNumbers == show)
+        return;
+
+    m_showLineNumbers = show;
+    updateLineNumberWidth();
+    update();
+    emit lineNumbersChanged();
+}
+
+QColor TextRenderer::lineNumberSeparatorColor() const
+{
+    return m_lineNumberSeparatorColor;
+}
+
+void TextRenderer::setLineNumberSeparatorColor(const QColor& color)
+{
+    if (m_lineNumberSeparatorColor == color)
+        return;
+    m_lineNumberSeparatorColor = color;
+    update();
+    emit lineNumberSeparatorColorChanged();
+}
+
+int TextRenderer::lineNumberExtraWidth() const
+{
+    return m_lineNumberExtraWidth;
+}
+
+void TextRenderer::setLineNumberExtraWidth(int width)
+{
+    if (m_lineNumberExtraWidth == width)
+        return;
+    m_lineNumberExtraWidth = width;
+    updateLineNumberWidth();
+    update();
+    emit lineNumberExtraWidthChanged();
+}
+
+/*qreal TextRenderer::lineNumberWidth() const
+{
+    return m_lineNumberWidth;
+}
+void TextRenderer::setLineNumberWidth(qreal width)
+{
+    if (qFuzzyCompare(m_lineNumberWidth, width))
+        return;
+    m_lineNumberWidth = width;
+    update();
+    emit lineNumberWidthChanged();
+}*/
+
+
 // ==============================================================================
 // 核心渲染方法
 // ==============================================================================
@@ -328,11 +377,13 @@ void TextRenderer::paintLineNumbers(QPainter* painter, const QRectF& rect)
     painter->save();
 
     // 设置行号区域背景
-    QColor lineNumberBg = m_backgroundColor.darker(105);
+    //QColor lineNumberBg = m_backgroundColor.darker(105);
+    QColor lineNumberBg = m_backgroundColor;
     painter->fillRect(lineNumberRect, lineNumberBg);
 
     // 绘制分隔线
-    painter->setPen(QPen(m_textColor.lighter(180), 1));
+    //painter->setPen(QPen(m_textColor.lighter(180), 1));
+    painter->setPen(QPen(m_lineNumberSeparatorColor, 1));
     painter->drawLine(lineNumberRect.topRight(), lineNumberRect.bottomRight());
 
     // 设置行号文字样式
@@ -397,7 +448,8 @@ void TextRenderer::paintText(QPainter* painter, const QRectF& rect)
             continue;
 
         qreal y = lineNumber * lineHeight - m_scrollY;
-        qreal x = textRect.left() - m_scrollX;
+        //qreal x = textRect.left() - m_scrollX;
+        qreal x = textRect.left() + TEXT_LEFT_PADDING - m_scrollX;
 
         // 如果有语法高亮
         if (m_syntaxHighlighter) {
@@ -560,7 +612,7 @@ QPoint TextRenderer::positionToPoint(int position) const
     QFontMetrics fm(m_font);
     qreal lineHeight = m_layoutEngine->lineHeight();
 
-    qreal x = textArea().left() + fm.horizontalAdvance(
+    qreal x = textArea().left() + TEXT_LEFT_PADDING + fm.horizontalAdvance(
         m_document->getLine(line).left(column)) - m_scrollX;
     qreal y = line * lineHeight - m_scrollY;
 
@@ -575,7 +627,7 @@ int TextRenderer::pointToPosition(const QPointF& point) const
     QRectF textRect = textArea();
 
     // 调整点坐标考虑滚动
-    qreal adjustedX = point.x() - textRect.left() + m_scrollX;
+    qreal adjustedX = point.x() - textRect.left() - TEXT_LEFT_PADDING + m_scrollX;
     qreal adjustedY = point.y() + m_scrollY;
 
     qreal lineHeight = m_layoutEngine->lineHeight();
@@ -1288,7 +1340,7 @@ void TextRenderer::onGeometryChanged()
 // 私有辅助方法
 // ==============================================================================
 
-void TextRenderer::updateLineNumberWidth()
+/*void TextRenderer::updateLineNumberWidth()
 {
     if (!m_showLineNumbers || !m_document) {
         m_lineNumberWidth = 0;
@@ -1299,6 +1351,28 @@ void TextRenderer::updateLineNumberWidth()
     int lineCount = m_document->lineCount();
     int digits = QString::number(lineCount).length();
     m_lineNumberWidth = fm.horizontalAdvance('9') * digits + 20; // 额外的边距
+}*/
+
+void TextRenderer::updateLineNumberWidth()
+{
+    if (!m_showLineNumbers || !m_document) {
+        if (!qFuzzyCompare(m_lineNumberWidth, 0.0)) {
+            m_lineNumberWidth = 0;
+            emit lineNumberExtraWidthChanged(); // 添加信号发送
+        }
+        return;
+    }
+
+    QFontMetrics fm(m_font);
+    int lineCount = m_document->lineCount();
+    int digits = QString::number(lineCount).length();
+    //qreal newWidth = fm.horizontalAdvance('9') * digits + 20; // 额外的边距
+    qreal newWidth = fm.horizontalAdvance('9') * digits + m_lineNumberExtraWidth; // 额外的边距
+
+    if (!qFuzzyCompare(m_lineNumberWidth, newWidth)) {
+        m_lineNumberWidth = newWidth;
+        emit lineNumberExtraWidthChanged(); // 添加信号发送
+    }
 }
 
 QRectF TextRenderer::textArea() const

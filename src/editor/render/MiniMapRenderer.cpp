@@ -183,7 +183,9 @@ void MiniMapRenderer::paintMiniText(QPainter* painter)
     painter->save();
 
     // 设置缩放字体
-    QFont miniFont("Consolas", 1); // 使用最小字体
+    //QFont miniFont("Consolas", 1); // 使用最小字体
+    QFont miniFont("Consolas"); // 使用最小字体
+    miniFont.setPixelSize(1); // 使用最小字体
     painter->setFont(miniFont);
     painter->setPen(m_textColor);
 

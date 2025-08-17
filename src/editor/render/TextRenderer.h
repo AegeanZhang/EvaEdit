@@ -38,13 +38,17 @@ class TextRenderer : public QQuickPaintedItem {
         QML_ELEMENT
 
         Q_PROPERTY(DocumentModel* document READ document WRITE setDocument NOTIFY documentChanged)
-        Q_PROPERTY(bool lineNumbers READ showLineNumbers WRITE setShowLineNumbers NOTIFY lineNumbersChanged)
         Q_PROPERTY(bool wordWrap READ wordWrap WRITE setWordWrap NOTIFY wordWrapChanged)
         Q_PROPERTY(QFont font READ font WRITE setFont NOTIFY fontChanged)
         Q_PROPERTY(QColor backgroundColor READ backgroundColor WRITE setBackgroundColor NOTIFY backgroundColorChanged)
         Q_PROPERTY(QColor textColor READ textColor WRITE setTextColor NOTIFY textColorChanged)
         Q_PROPERTY(int scrollX READ scrollX WRITE setScrollX NOTIFY scrollXChanged)
         Q_PROPERTY(int scrollY READ scrollY WRITE setScrollY NOTIFY scrollYChanged)
+        // Line Number区域的设置
+        Q_PROPERTY(bool lineNumbers READ showLineNumbers WRITE setShowLineNumbers NOTIFY lineNumbersChanged)
+        Q_PROPERTY(QColor lineNumberSeparatorColor READ lineNumberSeparatorColor WRITE setLineNumberSeparatorColor NOTIFY lineNumberSeparatorColorChanged)
+        // 这里想从QML中设置额外的宽度，TextRenderer通过计算来确定行号的宽度，我们这里可以设置这个属性来增加额外的宽度
+        Q_PROPERTY(qreal lineNumberExtraWidth READ lineNumberExtraWidth WRITE setLineNumberExtraWidth NOTIFY lineNumberExtraWidthChanged)
 
 public:
     explicit TextRenderer(QQuickItem* parent = nullptr);
@@ -53,9 +57,6 @@ public:
     // 属性访问器
     DocumentModel* document() const;
     void setDocument(DocumentModel* document);
-
-    bool showLineNumbers() const;
-    void setShowLineNumbers(bool show);
 
     bool wordWrap() const;
     void setWordWrap(bool wrap);
@@ -74,6 +75,18 @@ public:
 
     int scrollY() const;
     void setScrollY(int y);
+
+    bool showLineNumbers() const;
+    void setShowLineNumbers(bool show);
+
+    QColor lineNumberSeparatorColor() const;
+    void setLineNumberSeparatorColor(const QColor& color);
+
+    //int lineNumberAreaWidth() const;
+    //void setLineNumberAreaWidth(int width);
+
+    int lineNumberExtraWidth() const;
+    void setLineNumberExtraWidth(int width);
 
     // 渲染控制
     void paint(QPainter* painter) override;
@@ -125,7 +138,6 @@ public:
 
 signals:
     void documentChanged();
-    void lineNumbersChanged();
     void wordWrapChanged();
     void fontChanged();
     void backgroundColorChanged();
@@ -133,6 +145,9 @@ signals:
     void scrollXChanged();
     void scrollYChanged();
     void painted();
+    void lineNumbersChanged();
+    void lineNumberSeparatorColorChanged();
+    void lineNumberExtraWidthChanged();
 
 protected:
     void mousePressEvent(QMouseEvent* event) override;
@@ -160,13 +175,16 @@ private:
     SyntaxHighlighter* m_syntaxHighlighter = nullptr;
     InputManager* m_inputManager = nullptr;
 
-    bool m_showLineNumbers = true;
     bool m_wordWrap = false;
     QFont m_font;
     QColor m_backgroundColor = Qt::white;
     QColor m_textColor = Qt::black;
     int m_scrollX = 0;
     int m_scrollY = 0;
+
+    bool m_showLineNumbers = true;
+    QColor m_lineNumberSeparatorColor = Qt::white;
+    int m_lineNumberExtraWidth = 20;
 
     qreal m_lineNumberWidth = 0;
     int m_lastClickCount = 0;

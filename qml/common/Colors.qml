@@ -9,7 +9,7 @@ QtObject {
 
     // 主背景颜色，包括菜单等
     property color background
-    // 编辑区背景颜色
+    // 编辑区背景颜色, TabButton选中时也是这个颜色
     property color surface1
     property color surface2
     property color viewBorder

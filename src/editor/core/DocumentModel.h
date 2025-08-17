@@ -12,6 +12,13 @@
 
 // 文档变更事件
 struct TextChange {
+    Q_GADGET
+public:
+    Q_PROPERTY(int position MEMBER position)
+    Q_PROPERTY(int removedLength MEMBER removedLength)
+    Q_PROPERTY(QString insertedText MEMBER insertedText)
+    Q_PROPERTY(QDateTime timestamp MEMBER timestamp)
+
     int position;
     int removedLength;
     QString insertedText;
@@ -21,7 +28,16 @@ struct TextChange {
 // 文档模型
 class DocumentModel : public QObject {
     Q_OBJECT
-        QML_ELEMENT
+    QML_ELEMENT
+
+    Q_PROPERTY(QString filePath READ filePath WRITE setFilePath NOTIFY filePathChanged)
+    Q_PROPERTY(bool isModified READ isModified WRITE setModified NOTIFY modifiedChanged)
+    Q_PROPERTY(bool isReadOnly READ isReadOnly WRITE setReadOnly NOTIFY readOnlyChanged)
+    Q_PROPERTY(int lineCount READ lineCount NOTIFY textChanged)
+    Q_PROPERTY(int textLength READ textLength NOTIFY textChanged)
+    Q_PROPERTY(QString fullText READ getFullText NOTIFY textChanged)
+    Q_PROPERTY(bool canUndo READ canUndo NOTIFY undoAvailable)
+    Q_PROPERTY(bool canRedo READ canRedo NOTIFY redoAvailable)
 
 public:
     enum DocumentType {
@@ -79,33 +95,33 @@ public:
     void setReadOnly(bool readOnly);
 
     // 文本操作
-    void insertText(int position, const QString& text);
-    void removeText(int position, int length);
-    void replaceText(int position, int length, const QString& text);
-    QString getText(int position, int length) const;
-    QString getFullText() const;
-    int textLength() const;
+    Q_INVOKABLE void insertText(int position, const QString& text);
+    Q_INVOKABLE void removeText(int position, int length);
+    Q_INVOKABLE void replaceText(int position, int length, const QString& text);
+    Q_INVOKABLE QString getText(int position, int length) const;
+    Q_INVOKABLE QString getFullText() const;
+    Q_INVOKABLE int textLength() const;
 
     // 行操作
-    int lineCount() const;
-    QString getLine(int lineNumber) const;
-    int positionToLine(int position) const;
-    int positionToColumn(int position) const;
-    int lineColumnToPosition(int line, int column) const;
+    Q_INVOKABLE int lineCount() const;
+    Q_INVOKABLE QString getLine(int lineNumber) const;
+    Q_INVOKABLE int positionToLine(int position) const;
+    Q_INVOKABLE int positionToColumn(int position) const;
+    Q_INVOKABLE int lineColumnToPosition(int line, int column) const;
 
     // 撤销/重做
     bool canUndo() const;
     bool canRedo() const;
-    void undo();
-    void redo();
-    void clearUndoHistory();
+    Q_INVOKABLE void undo();
+    Q_INVOKABLE void redo();
+    Q_INVOKABLE void clearUndoHistory();
 
     // 文件操作
-    bool loadFromFile(const QString& filePath);
-    bool saveToFile(const QString& filePath = QString());
+    Q_INVOKABLE bool loadFromFile(const QString& filePath);
+    Q_INVOKABLE bool saveToFile(const QString& filePath = QString());
 
     // 搜索
-    QList<int> findText(const QString& pattern, bool caseSensitive = false, bool wholeWords = false) const;
+    Q_INVOKABLE QList<int> findText(const QString& pattern, bool caseSensitive = false, bool wholeWords = false) const;
 
     // 撤销系统专用方法 - 直接操作存储，不触发撤销命令
     void insertTextDirect(int position, const QString& text);
@@ -114,26 +130,27 @@ public:
     QString getTextDirect(int position, int length) const;
 
     // 批量操作支持
-    void beginBatchEdit();
-    void endBatchEdit();
+    Q_INVOKABLE void beginBatchEdit();
+    Q_INVOKABLE void endBatchEdit();
 
     // 统计信息
-    int getCharacterCount() const;
-    int getWordCount() const;
-    int getParagraphCount() const;
+    Q_INVOKABLE int getCharacterCount() const;
+    Q_INVOKABLE int getWordCount() const;
+    Q_INVOKABLE int getParagraphCount() const;
 
     // 文档状态
-    bool isEmpty() const;
-    bool isLargeFile() const;
-    QDateTime lastModified() const;
+    Q_INVOKABLE bool isEmpty() const;
+    Q_INVOKABLE bool isLargeFile() const;
+    Q_INVOKABLE QDateTime lastModified() const;
 
     // 快照功能
-    QString createSnapshot() const;
-    bool restoreFromSnapshot(const QString& snapshot);
+    Q_INVOKABLE QString createSnapshot() const;
+    Q_INVOKABLE bool restoreFromSnapshot(const QString& snapshot);
 
 signals:
     void textChanged(const TextChange& change);
     void modifiedChanged(bool modified);
+    void readOnlyChanged(bool readOnly);
     void encodingChanged(Encoding encoding);
     void filePathChanged(const QString& filePath);
     void undoAvailable(bool available);

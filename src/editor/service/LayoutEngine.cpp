@@ -8,9 +8,13 @@
 
 LayoutEngine::LayoutEngine(QObject* parent)
     : QObject(parent)
-    , m_font("Consolas", 12)
+    , m_font("Consolas")//, 12)
     , m_fontMetrics(m_font)
 {
+    m_font.setPixelSize(12);
+    // 重新初始化字体度量（因为字体已经修改）
+    m_fontMetrics = QFontMetrics(m_font);
+
     // 初始化视口信息
     m_viewport.rect = QRectF();
     m_viewport.firstVisibleLine = 0;
