@@ -17,6 +17,10 @@ set(EDITOR_FILES_BASE
     interaction/CursorManager.cpp
     interaction/SelectionManager.h
     interaction/SelectionManager.cpp
+    interaction/InputHandler.h
+    interaction/InputHandler.cpp
+    controller/TextEditorController.h
+    controller/TextEditorController.cpp
     render/MiniMapRenderer.h
     render/MiniMapRenderer.cpp
     render/TextRenderer.h

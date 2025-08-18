@@ -10,6 +10,11 @@
 #include <qqmlintegration.h>
 #include <memory>
 
+//class DocumentModel;
+
+// 声明不透明指针类型
+//Q_DECLARE_OPAQUE_POINTER(DocumentModel*)
+
 // 文档变更事件
 struct TextChange {
     Q_GADGET

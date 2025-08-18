@@ -31,6 +31,7 @@ target_include_directories(EvaEdit
     ${CMAKE_CURRENT_SOURCE_DIR}/src/editor/core
     ${CMAKE_CURRENT_SOURCE_DIR}/src/editor/service
     ${CMAKE_CURRENT_SOURCE_DIR}/src/editor/interaction
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/editor/controller
     ${CMAKE_CURRENT_SOURCE_DIR}/src/editor/render
 )
 

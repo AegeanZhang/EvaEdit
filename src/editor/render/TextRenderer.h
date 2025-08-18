@@ -11,14 +11,16 @@
 #include <QList>
 #include <QTimer>
 #include <qqmlintegration.h>
+#include "../core/DocumentModel.h"
 
 // 前向声明
-class DocumentModel;
+//class DocumentModel;
 class LayoutEngine;
 class CursorManager;
 class SelectionManager;
 class SyntaxHighlighter;
 class InputManager;
+class InputHandler;
 class QMouseEvent;
 class QKeyEvent;
 class QWheelEvent;
@@ -30,7 +32,10 @@ struct SelectionRange;
 struct Cursor;
 
 // 声明不透明指针类型
-Q_DECLARE_OPAQUE_POINTER(DocumentModel*)
+//Q_DECLARE_OPAQUE_POINTER(DocumentModel*)
+
+//class TextRenderer;
+//Q_DECLARE_OPAQUE_POINTER(TextRenderer*)
 
 // 文本渲染器
 class TextRenderer : public QQuickPaintedItem {
@@ -100,6 +105,14 @@ public:
     Q_INVOKABLE QList<int> getVisibleLines() const;
     Q_INVOKABLE void ensurePositionVisible(int position);
     Q_INVOKABLE void ensureLineVisible(int lineNumber);
+
+    // 暴露布局引擎和其他管理器的访问方法，供控制器使用
+    LayoutEngine* layoutEngine() const { return m_layoutEngine; }
+    CursorManager* cursorManager() const { return m_cursorManager; }
+    SelectionManager* selectionManager() const { return m_selectionManager; }
+    SyntaxHighlighter* syntaxHighlighter() const { return m_syntaxHighlighter; }
+
+    /*
 public:
     // 命令处理方法
     Q_INVOKABLE void handleMoveCursorLeft();
@@ -135,7 +148,7 @@ public:
 
     Q_INVOKABLE void handleUndo();
     Q_INVOKABLE void handleRedo();
-
+    */
 signals:
     void documentChanged();
     void wordWrapChanged();
@@ -149,15 +162,24 @@ signals:
     void lineNumberSeparatorColorChanged();
     void lineNumberExtraWidthChanged();
 
+    void mousePressed(QPointF position, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
+    void mouseMoved(QPointF position, Qt::MouseButtons buttons, Qt::KeyboardModifiers modifiers);
+    void mouseReleased(QPointF position, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
+    void mouseDoubleClicked(QPointF position, Qt::MouseButton button);
+    void wheelScrolled(QWheelEvent* event);
+
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void mouseDoubleClickEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
+
+    /*
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
     void inputMethodEvent(QInputMethodEvent* event) override;
+    */
     QVariant inputMethodQuery(Qt::InputMethodQuery query) const override;
 
 private slots:
@@ -243,7 +265,9 @@ private:
 
     void initializeComponents();
     void connectSignals();
+    /*
     void setupInputManager();
+    */
 };
 
 #endif // TEXT_RENDERER_H

@@ -172,6 +172,13 @@ Rectangle {
                 Logger.debug("TextRenderer 创建完成: " + root.currentFilePath);
             }
         }
+
+        TextEditorController {
+            id: editorController
+            renderer: textRenderer
+            document: documentModel
+        }
+
         // 垂直滚动条
         ScrollBar {
             id: verticalScrollBar

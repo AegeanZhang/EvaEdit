@@ -69,7 +69,7 @@ void TextRenderer::initializeComponents()
 
     // 创建输入管理器
     m_inputManager = new InputManager(this);
-    setupInputManager();
+    //setupInputManager();
 }
 
 void TextRenderer::connectSignals()
@@ -814,56 +814,7 @@ void TextRenderer::wheelEvent(QWheelEvent* event)
     event->accept();
 }
 
-/*void TextRenderer::keyPressEvent(QKeyEvent* event)
-{
-    if (!m_document) {
-        QQuickPaintedItem::keyPressEvent(event);
-        return;
-    }
-
-    // 简单的键盘处理（完整的输入管理应该在 InputManager 中）
-    switch (event->key()) {
-    case Qt::Key_Left:
-        if (m_cursorManager) {
-            int pos = m_cursorManager->cursorPosition();
-            bool extend = event->modifiers() & Qt::ShiftModifier;
-            m_cursorManager->setCursorPosition(qMax(0, pos - 1), extend);
-            ensurePositionVisible(m_cursorManager->cursorPosition());
-        }
-        break;
-    case Qt::Key_Right:
-        if (m_cursorManager) {
-            int pos = m_cursorManager->cursorPosition();
-            bool extend = event->modifiers() & Qt::ShiftModifier;
-            m_cursorManager->setCursorPosition(
-                qMin(m_document->textLength(), pos + 1), extend);
-            ensurePositionVisible(m_cursorManager->cursorPosition());
-        }
-        break;
-    case Qt::Key_Up:
-    case Qt::Key_Down:
-        // 垂直移动的详细实现
-        handleVerticalMovement(event);
-        break;
-    default:
-        if (!event->text().isEmpty() && event->text().at(0).isPrint()) {
-            // 插入文本
-            if (m_cursorManager) {
-                int pos = m_cursorManager->cursorPosition();
-                m_document->insertText(pos, event->text());
-                m_cursorManager->setCursorPosition(pos + event->text().length());
-                ensurePositionVisible(m_cursorManager->cursorPosition());
-            }
-        }
-        else {
-            QQuickPaintedItem::keyPressEvent(event);
-        }
-        break;
-    }
-
-    update();
-}*/
-
+/*
 void TextRenderer::keyPressEvent(QKeyEvent* event)
 {
     if (!m_document) {
@@ -881,33 +832,29 @@ void TextRenderer::keyPressEvent(QKeyEvent* event)
     QQuickPaintedItem::keyPressEvent(event);
 }
 
-/*void TextRenderer::handleVerticalMovement(QKeyEvent* event)
+void TextRenderer::keyReleaseEvent(QKeyEvent* event)
 {
-    if (!m_cursorManager || !m_document)
+    QQuickPaintedItem::keyReleaseEvent(event);
+}
+
+void TextRenderer::inputMethodEvent(QInputMethodEvent* event)
+{
+    // 输入法事件处理
+    if (!m_document || !m_cursorManager)
         return;
 
-    int currentPos = m_cursorManager->cursorPosition();
-    int currentLine = m_document->positionToLine(currentPos);
-    int currentColumn = m_document->positionToColumn(currentPos);
-
-    int targetLine = currentLine;
-    if (event->key() == Qt::Key_Up) {
-        targetLine = qMax(0, currentLine - 1);
-    }
-    else {
-        targetLine = qMin(m_document->lineCount() - 1, currentLine + 1);
+    QString commitString = event->commitString();
+    if (!commitString.isEmpty()) {
+        int pos = m_cursorManager->cursorPosition();
+        m_document->insertText(pos, commitString);
+        m_cursorManager->setCursorPosition(pos + commitString.length());
+        ensurePositionVisible(m_cursorManager->cursorPosition());
+        update();
     }
 
-    // 保持列位置，但不超过目标行的长度
-    QString targetLineText = m_document->getLine(targetLine);
-    int targetColumn = qMin(currentColumn, targetLineText.length());
-
-    int newPos = m_document->lineColumnToPosition(targetLine, targetColumn);
-    bool extend = event->modifiers() & Qt::ShiftModifier;
-
-    m_cursorManager->setCursorPosition(newPos, extend);
-    ensurePositionVisible(newPos);
-}*/
+    QQuickPaintedItem::inputMethodEvent(event);
+}
+*/
 
 void TextRenderer::handleHorizontalMovement(QKeyEvent* event)
 {
@@ -938,29 +885,6 @@ void TextRenderer::handleVerticalMovement(QKeyEvent* event)
     }
 
     handleMovement(direction, extend, unit);
-}
-
-void TextRenderer::keyReleaseEvent(QKeyEvent* event)
-{
-    QQuickPaintedItem::keyReleaseEvent(event);
-}
-
-void TextRenderer::inputMethodEvent(QInputMethodEvent* event)
-{
-    // 输入法事件处理
-    if (!m_document || !m_cursorManager)
-        return;
-
-    QString commitString = event->commitString();
-    if (!commitString.isEmpty()) {
-        int pos = m_cursorManager->cursorPosition();
-        m_document->insertText(pos, commitString);
-        m_cursorManager->setCursorPosition(pos + commitString.length());
-        ensurePositionVisible(m_cursorManager->cursorPosition());
-        update();
-    }
-
-    QQuickPaintedItem::inputMethodEvent(event);
 }
 
 void TextRenderer::handleMovement(MoveDirection direction, bool extend, MoveUnit unit)
@@ -1478,6 +1402,7 @@ int TextRenderer::getClickCount(QMouseEvent* event)
     // ... 其他命令处理器 ...
 }*/
 
+/*
 void TextRenderer::setupInputManager()
 {
     if (!m_inputManager) return;
@@ -1574,11 +1499,12 @@ void TextRenderer::setupInputManager()
     m_inputManager->registerCommandHandler(EditCommand::Redo,
         [this](const QString&) { this->handleRedo(); });
 }
+*/
 
 // ==============================================================================
 // 命令处理方法实现
 // ==============================================================================
-
+/*
 void TextRenderer::handleMoveCursorLeft()
 {
     if (!m_cursorManager) return;
@@ -1873,3 +1799,5 @@ void TextRenderer::handleRedo()
         m_document->redo();
     }
 }
+
+*/
