@@ -142,13 +142,15 @@ Rectangle {
                             verticalAlignment: Text.AlignVCenter
                         }
 
-                        Button {
+                        ToolButton {
+                            //implicitWidth: 16
+                            //implicitHeight: 16
                             width: 16
                             height: 16
     
                             icon.source: "../../resources/icons/close_btn.svg"
-                            icon.width: 12
-                            icon.height: 12
+                            icon.width: 14
+                            icon.height: 14
                             icon.color: Colors.iconButton
     
                             display: AbstractButton.IconOnly
@@ -172,7 +174,8 @@ Rectangle {
                             width: parent.width
                             height: 3
                             anchors.top: parent.top
-                            color: tabBar.currentIndex === tabButton.tabIndex ? Colors.color1 : "transparent"
+                            //color: tabBar.currentIndex === tabButton.tabIndex ? Colors.color1 : "transparent"
+                            color: tabBar.currentIndex === tabButton.tabIndex ? Colors.active : "transparent"
                         }
                     }
                     

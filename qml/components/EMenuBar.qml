@@ -39,7 +39,8 @@ MenuBar {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
 
-                color: Colors.color1
+                //color: Colors.color1
+                color: Colors.active
                 states: State {
                     name: "active"
                     when: menuBarItem.highlighted

@@ -189,26 +189,25 @@ Rectangle {
             active: true
             policy: ScrollBar.AsNeeded
             
-            // 计算内容高度和可见区域
+            property real totalHeight: documentModel ? documentModel.lineCount * 20 : 0
+            property real viewHeight: textRenderer.height
+
+            visible: totalHeight > viewHeight + 1
+
             size: {
-                if (!documentModel) return 1.0;
-                var totalHeight = documentModel.lineCount * 20; // 假设行高为20
-                var viewHeight = textRenderer.height;
+                if (totalHeight <= 0) return 1.0;
                 return Math.min(1.0, viewHeight / totalHeight);
             }
-            
+
             position: {
-                if (!documentModel) return 0.0;
-                var totalHeight = documentModel.lineCount * 20;
-                var viewHeight = textRenderer.height;
                 if (totalHeight <= viewHeight) return 0.0;
-                return textRenderer.scrollY / (totalHeight - viewHeight);
+                var maxScroll = totalHeight - viewHeight;
+                if (maxScroll <= 0) return 0.0;
+                return textRenderer.scrollY / maxScroll;
             }
-            
+
             onPositionChanged: {
                 if (pressed && documentModel) {
-                    var totalHeight = documentModel.lineCount * 20;
-                    var viewHeight = textRenderer.height;
                     var maxScroll = Math.max(0, totalHeight - viewHeight);
                     textRenderer.scrollY = position * maxScroll;
                 }
@@ -238,43 +237,29 @@ Rectangle {
             active: true
             policy: ScrollBar.AsNeeded
             orientation: Qt.Horizontal
-            
-            // 计算内容宽度和可见区域
+
+            property real maxLineWidth: 1000 // TODO: 从 TextRenderer 获取实际最大行宽
+            property real viewWidth: textRenderer.width
+
+            visible: maxLineWidth > viewWidth + 1
+
             size: {
-                // 这里需要根据实际的内容宽度来计算
-                // 可以通过 TextRenderer 提供的方法获取最大行宽度
-                var viewWidth = textRenderer.width;
-                var maxLineWidth = 1000; // 需要从 TextRenderer 获取实际值
+                if (maxLineWidth <= 0) return 1.0;
                 return Math.min(1.0, viewWidth / maxLineWidth);
             }
-            
+
             position: {
-                var viewWidth = textRenderer.width;
-                var maxLineWidth = 1000;
                 if (maxLineWidth <= viewWidth) return 0.0;
-                return textRenderer.scrollX / (maxLineWidth - viewWidth);
+                var maxScroll = maxLineWidth - viewWidth;
+                if (maxScroll <= 0) return 0.0;
+                return textRenderer.scrollX / maxScroll;
             }
-            
+
             onPositionChanged: {
                 if (pressed) {
-                    var viewWidth = textRenderer.width;
-                    var maxLineWidth = 1000;
                     var maxScroll = Math.max(0, maxLineWidth - viewWidth);
                     textRenderer.scrollX = position * maxScroll;
                 }
-            }
-            
-            background: Rectangle {
-                implicitHeight: 12
-                color: Colors.background
-                opacity: 0.3
-            }
-            
-            contentItem: Rectangle {
-                implicitHeight: 8
-                color: Colors.color1
-                opacity: parent.pressed ? 1.0 : 0.7
-                radius: 4
             }
         }
     }

@@ -22,6 +22,8 @@ QtObject {
     readonly property color icon: "#5F6368"
     readonly property color iconIndicator: "#1A73E8"
     readonly property color iconButton: "#202124"
+
+    readonly property color scrollBarActive: "#434343"
     readonly property color color1: "#34A853"  // 绿色主题色
     readonly property color color2: "#EA4335"  // 红色主题色
 }

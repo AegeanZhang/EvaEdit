@@ -137,17 +137,54 @@ Rectangle {
             }
         }
 
+        // 添加 HoverHandler 来检测鼠标悬停
+        HoverHandler {
+            id: treeViewHoverHandler
+        }
+
         // Provide our own custom ScrollIndicator for the TreeView.
         ScrollIndicator.vertical: ScrollIndicator {
             active: true
             implicitWidth: 15
 
+            // 检查是否真的需要滚动条
+            property bool needsScrollBar: {
+                if (!fileSystemTreeView.model) return false;
+                
+                // 计算所有可见项的总高度
+                var totalContentHeight = 0;
+                var delegateHeight = 25; // 与 delegate 的 implicitHeight 保持一致
+                
+                // 获取当前根目录下的项目数量（包括展开的子项）
+                var visibleItems = getVisibleItemCount();
+                totalContentHeight = visibleItems * delegateHeight;
+                
+                // 比较内容高度与可视区域高度
+                return totalContentHeight > fileSystemTreeView.height;
+            }
+
+            // 计算可见项目数量（包括展开的文件夹中的项目）
+            function getVisibleItemCount() {
+                if (!fileSystemTreeView.model || !fileSystemTreeView.rootIndex.valid) {
+                    return 0;
+                }
+                
+                // 简化计算：使用 TreeView 的 rows 属性
+                // TreeView 会自动计算展开状态下的可见行数
+                return fileSystemTreeView.rows || 0;
+            }
+
+            // 只有在需要滚动条且鼠标悬停或正在滚动时才显示
+            visible: needsScrollBar
+
             contentItem: Rectangle {
                 implicitWidth: 6
                 implicitHeight: 6
 
-                color: Colors.color1
-                opacity: fileSystemTreeView.movingVertically ? 0.5 : 0.0
+                color: Colors.scrollBarActive
+                // 修改透明度逻辑：鼠标悬停或正在滚动时显示
+                opacity: parent.visible 
+                    && (treeViewHoverHandler.hovered || fileSystemTreeView.movingVertically) ? 0.5 : 0.0
 
                 Behavior on opacity {
                     OpacityAnimator {
