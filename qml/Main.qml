@@ -87,7 +87,12 @@ ApplicationWindow {
                 }
             }
 
-            Rectangle {
+            ESidePanel {
+                id: navigationView
+                //currentFilePath: root.currentFilePath
+            }
+
+            /*Rectangle {
                 id: navigationView
 
                 border.width: EConstants.borderWidth
@@ -128,7 +133,7 @@ ApplicationWindow {
                         color: Colors.text
                     }
                 }
-            }
+            }*/
 
             ETabView {
                 id: tabView

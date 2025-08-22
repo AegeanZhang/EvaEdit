@@ -67,6 +67,7 @@ CMakeUserPresets.json
 *~
 *.tmp
 *.log
+*_bak
 
 # MacOS
 .DS_Store

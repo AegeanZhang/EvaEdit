@@ -18,6 +18,7 @@ set(QML_FILES_BASE
     views/ETextEditor.qml
     views/EFileView.qml
     views/ESidebar.qml
+    views/ESidePanel.qml
     views/ETabView.qml
     views/EOutlineView.qml
     

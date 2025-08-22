@@ -15,6 +15,7 @@ EDialogs 1.0 components/EDialogs.qml
 ResizeButton 1.0 components/ResizeButton.qml
 
 ESidebar 1.0 views/ESidebar.qml
+ESidePanel 1.0 views/ESidePanel.qml
 EEditor 1.0 views/EEditor.qml
 ETextEditor 1.0 views/ETextEditor.qml
 

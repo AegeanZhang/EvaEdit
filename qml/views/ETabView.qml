@@ -76,6 +76,8 @@ Rectangle {
 
             Layout.fillWidth: true
             Layout.preferredHeight: root.tabBarHeight
+
+            clip: true
             
             background: Rectangle {
                 color: Colors.surface2
