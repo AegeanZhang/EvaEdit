@@ -329,8 +329,9 @@ void TextRenderer::paint(QPainter* painter)
 
     painter->save();
 
-    // 设置渲染提示
-    painter->setRenderHint(QPainter::Antialiasing, true);
+    // 设置渲染提示, 只在需要时启用抗锯齿，减少不必要的性能开销
+    //painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setRenderHint(QPainter::Antialiasing, false);
     painter->setRenderHint(QPainter::TextAntialiasing, true);
 
     QRectF rect = boundingRect();
@@ -345,10 +346,12 @@ void TextRenderer::paint(QPainter* painter)
     paintSelections(painter, rect);
 
     // 4. 绘制文本
+    // TODO 建议：在paintText内部实现脏区域裁剪，只绘制可见区域文本
     paintText(painter, rect);
 
     // 5. 绘制行号
     if (m_showLineNumbers) {
+        // TODO 建议：在paintLineNumbers内部缓存行号文本，避免重复计算
         paintLineNumbers(painter, rect);
     }
 
@@ -451,7 +454,9 @@ void TextRenderer::paintText(QPainter* painter, const QRectF& rect)
         //qreal x = textRect.left() - m_scrollX;
         qreal x = textRect.left() + TEXT_LEFT_PADDING - m_scrollX;
 
+		// TODO 这里paintHighlightedLine消耗CPU太高，需要优化，暂时先注释掉
         // 如果有语法高亮
+        /*
         if (m_syntaxHighlighter) {
             QList<Token> tokens = m_syntaxHighlighter->tokenizeLine(lineText, lineNumber);
             paintHighlightedLine(painter, lineText, tokens, QPointF(x, y));
@@ -460,6 +465,8 @@ void TextRenderer::paintText(QPainter* painter, const QRectF& rect)
             // 普通文本绘制
             painter->drawText(QPointF(x, y + fm.ascent()), lineText);
         }
+        */
+        painter->drawText(QPointF(x, y + fm.ascent()), lineText);
     }
 
     painter->restore();

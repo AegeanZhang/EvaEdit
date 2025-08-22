@@ -12,7 +12,7 @@ Rectangle {
     signal fileClicked(string filePath)
     property alias rootIndex: fileSystemTreeView.rootIndex
 
-    // Ìí¼ÓÄÚ±ß¾àÊôĞÔ£¬¿ÉÒÔ·½±ãµ÷Õû
+    // æ·»åŠ å†…è¾¹è·å±æ€§ï¼Œå¯ä»¥æ–¹ä¾¿è°ƒæ•´
     property int padding: 5
 
     TreeView {
@@ -115,8 +115,9 @@ Rectangle {
                                 root.fileClicked(treeDelegate.filePath)
                         break;
                         case Qt.RightButton:
-                            if (treeDelegate.hasChildren)
-                                contextMenu.popup();
+                            //if (treeDelegate.hasChildren)
+                            fileSystemTreeView.lastIndex = treeDelegate.index
+                            contextMenu.popup();
                         break;
                     }
                 }
@@ -124,7 +125,12 @@ Rectangle {
 
             EMenu {
                 id: contextMenu
-                Action {
+                Action { text: qsTr("å³é”®èœå•å ä½1") }
+                Action { text: qsTr("å³é”®èœå•å ä½2") }
+                Action { text: qsTr("å³é”®èœå•å ä½3") }
+                Action { text: qsTr("å³é”®èœå•å ä½4") }
+                Action { text: qsTr("å³é”®èœå•å ä½5") }
+                /*Action {
                     text: qsTr("Set as root index")
                     onTriggered: {
                         fileSystemTreeView.rootIndex = fileSystemTreeView.index(treeDelegate.row, 0)
@@ -133,11 +139,11 @@ Rectangle {
                 Action {
                     text: qsTr("Reset root index")
                     onTriggered: fileSystemTreeView.rootIndex = undefined
-                }
+                }*/
             }
         }
 
-        // Ìí¼Ó HoverHandler À´¼ì²âÊó±êĞüÍ£
+        // æ·»åŠ  HoverHandler æ¥æ£€æµ‹é¼ æ ‡æ‚¬åœ
         HoverHandler {
             id: treeViewHoverHandler
         }
@@ -147,34 +153,34 @@ Rectangle {
             active: true
             implicitWidth: 15
 
-            // ¼ì²éÊÇ·ñÕæµÄĞèÒª¹ö¶¯Ìõ
+            // æ£€æŸ¥æ˜¯å¦çœŸçš„éœ€è¦æ»šåŠ¨æ¡
             property bool needsScrollBar: {
                 if (!fileSystemTreeView.model) return false;
                 
-                // ¼ÆËãËùÓĞ¿É¼ûÏîµÄ×Ü¸ß¶È
+                // è®¡ç®—æ‰€æœ‰å¯è§é¡¹çš„æ€»é«˜åº¦
                 var totalContentHeight = 0;
-                var delegateHeight = 25; // Óë delegate µÄ implicitHeight ±£³ÖÒ»ÖÂ
+                var delegateHeight = 25; // ä¸ delegate çš„ implicitHeight ä¿æŒä¸€è‡´
                 
-                // »ñÈ¡µ±Ç°¸ùÄ¿Â¼ÏÂµÄÏîÄ¿ÊıÁ¿£¨°üÀ¨Õ¹¿ªµÄ×ÓÏî£©
+                // è·å–å½“å‰æ ¹ç›®å½•ä¸‹çš„é¡¹ç›®æ•°é‡ï¼ˆåŒ…æ‹¬å±•å¼€çš„å­é¡¹ï¼‰
                 var visibleItems = getVisibleItemCount();
                 totalContentHeight = visibleItems * delegateHeight;
                 
-                // ±È½ÏÄÚÈİ¸ß¶ÈÓë¿ÉÊÓÇøÓò¸ß¶È
+                // æ¯”è¾ƒå†…å®¹é«˜åº¦ä¸å¯è§†åŒºåŸŸé«˜åº¦
                 return totalContentHeight > fileSystemTreeView.height;
             }
 
-            // ¼ÆËã¿É¼ûÏîÄ¿ÊıÁ¿£¨°üÀ¨Õ¹¿ªµÄÎÄ¼ş¼ĞÖĞµÄÏîÄ¿£©
+            // è®¡ç®—å¯è§é¡¹ç›®æ•°é‡ï¼ˆåŒ…æ‹¬å±•å¼€çš„æ–‡ä»¶å¤¹ä¸­çš„é¡¹ç›®ï¼‰
             function getVisibleItemCount() {
                 if (!fileSystemTreeView.model || !fileSystemTreeView.rootIndex.valid) {
                     return 0;
                 }
                 
-                // ¼ò»¯¼ÆËã£ºÊ¹ÓÃ TreeView µÄ rows ÊôĞÔ
-                // TreeView »á×Ô¶¯¼ÆËãÕ¹¿ª×´Ì¬ÏÂµÄ¿É¼ûĞĞÊı
+                // ç®€åŒ–è®¡ç®—ï¼šä½¿ç”¨ TreeView çš„ rows å±æ€§
+                // TreeView ä¼šè‡ªåŠ¨è®¡ç®—å±•å¼€çŠ¶æ€ä¸‹çš„å¯è§è¡Œæ•°
                 return fileSystemTreeView.rows || 0;
             }
 
-            // Ö»ÓĞÔÚĞèÒª¹ö¶¯ÌõÇÒÊó±êĞüÍ£»òÕıÔÚ¹ö¶¯Ê±²ÅÏÔÊ¾
+            // åªæœ‰åœ¨éœ€è¦æ»šåŠ¨æ¡ä¸”é¼ æ ‡æ‚¬åœæˆ–æ­£åœ¨æ»šåŠ¨æ—¶æ‰æ˜¾ç¤º
             visible: needsScrollBar
 
             contentItem: Rectangle {
@@ -182,7 +188,7 @@ Rectangle {
                 implicitHeight: 6
 
                 color: Colors.scrollBarActive
-                // ĞŞ¸ÄÍ¸Ã÷¶ÈÂß¼­£ºÊó±êĞüÍ£»òÕıÔÚ¹ö¶¯Ê±ÏÔÊ¾
+                // ä¿®æ”¹é€æ˜åº¦é€»è¾‘ï¼šé¼ æ ‡æ‚¬åœæˆ–æ­£åœ¨æ»šåŠ¨æ—¶æ˜¾ç¤º
                 opacity: parent.visible 
                     && (treeViewHoverHandler.hovered || fileSystemTreeView.movingVertically) ? 0.5 : 0.0
 
