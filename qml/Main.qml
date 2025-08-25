@@ -16,6 +16,7 @@ ApplicationWindow {
     property bool expandPath: false
     property bool showLineNumbers: true
     property string currentFilePath: ""
+    property bool sidePanelVisible: true
 
     function getInfoText() : string {
         /* let out = root.currentFilePath
@@ -24,6 +25,10 @@ ApplicationWindow {
         return root.expandPath ? out : out.substring(out.lastIndexOf("/") + 1, out.length)
         */
         return qsTr("EvaEdit - 版本 1.0")
+    }
+
+    function toggleSidePanel() {
+        root.sidePanelVisible = !root.sidePanelVisible
     }
 
     // 使用可用桌面空间而不是整个屏幕
@@ -67,6 +72,8 @@ ApplicationWindow {
             dragWindow: root
             Layout.preferredWidth: 50
             Layout.fillHeight: true
+
+            onToggleSidePanel: root.toggleSidePanel()
         }
 
         // Allows resizing parts of the UI.
@@ -90,50 +97,9 @@ ApplicationWindow {
             ESidePanel {
                 id: navigationView
                 //currentFilePath: root.currentFilePath
+                visible: root.sidePanelVisible
+                SplitView.preferredWidth: root.sidePanelVisible ? 250 : 0
             }
-
-            /*Rectangle {
-                id: navigationView
-
-                border.width: EConstants.borderWidth
-                border.color: Colors.viewBorder
-
-                color: Colors.surface1
-                SplitView.preferredWidth: 250
-                SplitView.fillHeight: true
-                // The stack-layout provides different views, based on the
-                // selected buttons inside the sidebar.
-                StackLayout {
-                    anchors.fill: parent
-                    anchors.margins: navigationView.border.width
-                    currentIndex: sidebar.currentTabIndex
-
-                    // Shows the files on the file system.
-                    EFileView {
-                        id: fileSystemView
-
-                        color: Colors.surface1
-                        onFileClicked: path => {
-                            root.currentFilePath = path;
-                            //tabView.addNewTab(path);
-                            TabController.addNewTab(path);
-                        }
-                    }
-
-                    EOutlineView {
-                        id: outlineView
-
-                        //color: "#ffffff"
-                    }
-
-                    // Shows the help text.
-                    Text {
-                        text: qsTr("显示EvaEdit的简介")
-                        wrapMode: TextArea.Wrap
-                        color: Colors.text
-                    }
-                }
-            }*/
 
             ETabView {
                 id: tabView

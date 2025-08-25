@@ -10,6 +10,9 @@ Rectangle {
     property alias currentTabIndex: topBar.currentIndex
     required property ApplicationWindow dragWindow
     readonly property int tabBarSpacing: 20
+    property int previousTabIndex: 0
+
+    signal toggleSidePanel()
 
     color: Colors.surface2
     border.width: EConstants.borderWidth
@@ -30,6 +33,30 @@ Rectangle {
         bottomPadding: 0
         leftPadding: 0
         background: null
+
+        onClicked: {
+            if (checkable) {
+                // 检查是否点击的是当前已选中的按钮
+                let clickedIndex = -1
+                let buttons = topBar.contentChildren
+                for (let i = 0; i < buttons.length; i++) {
+                    if (buttons[i] === sidebarButton) {
+                        clickedIndex = i
+                        break
+                    }
+                }
+                
+                // 如果点击的是当前选中的按钮，则折叠面板
+                if (clickedIndex === root.previousTabIndex && checked) {
+                    root.toggleSidePanel()
+                }
+                
+                // 更新前一个选中的索引
+                if (checked) {
+                    root.previousTabIndex = clickedIndex
+                }
+            }
+        }
 
         Rectangle {
             id: indicator
@@ -60,8 +87,12 @@ Rectangle {
             // of the currently checked button. We use setCurrentIndex instead of setting the
             // currentIndex property to avoid breaking bindings. See "Managing the Current Index"
             // in Container's documentation for more information.
-            onCheckedButtonChanged: tabBarComponent.setCurrentIndex(
-                Math.max(0, buttons.indexOf(checkedButton)))
+            /*onCheckedButtonChanged: tabBarComponent.setCurrentIndex(
+                Math.max(0, buttons.indexOf(checkedButton)))*/
+            onCheckedButtonChanged: {
+                let newIndex = Math.max(0, buttons.indexOf(checkedButton))
+                tabBarComponent.setCurrentIndex(newIndex)
+            }
         }
 
         contentItem: ColumnLayout {

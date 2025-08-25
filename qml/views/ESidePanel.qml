@@ -16,6 +16,22 @@ Rectangle {
     SplitView.preferredWidth: 250
     SplitView.fillHeight: true
 
+    // 添加宽度变化的动画
+    Behavior on SplitView.preferredWidth {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    // 添加透明度动画
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 200
+            easing.type: Easing.InOutQuad
+        }
+    }
+
     // The stack-layout provides different views, based on the
     // selected buttons inside the sidebar.
     StackLayout {
