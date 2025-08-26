@@ -12,6 +12,7 @@ set(QML_FILES_BASE
     components/EMenuBar.qml
     components/EDialogs.qml
     components/ResizeButton.qml
+    components/EAboutDialog.qml
     
     # 视图文件
     views/EEditor.qml

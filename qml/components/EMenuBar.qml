@@ -14,6 +14,9 @@ MenuBar {
     required property ApplicationWindow dragWindow
     property alias infoText: windowInfo.text
 
+    // 添加信号
+    signal showAboutDialog()
+
     delegate: MenuBarItem {
         id: menuBarItem
 
@@ -309,7 +312,13 @@ MenuBar {
         title: EConstants.menuHelp
         Action { text: EConstants.menuHelpCheckForUpdate }
         MenuSeparator {}
-        Action { text: EConstants.menuHelpAbout }
+        Action {
+            text: EConstants.menuHelpAbout
+            onTriggered: {
+                //root.dragWindow.aboutDialog.open()
+                root.showAboutDialog()
+            }
+        }
     }
 
     // 对话框组件

@@ -51,7 +51,7 @@ ApplicationWindow {
     menuBar: EMenuBar {
         dragWindow: root
         infoText: root.getInfoText()
-        
+        onShowAboutDialog: aboutDialog.open()
     }
 
     Component.onCompleted: {
@@ -137,5 +137,9 @@ ApplicationWindow {
         ResizeButton {
             resizeWindow: root
         }
+    }
+
+    EAboutDialog {
+        id: aboutDialog
     }
 }

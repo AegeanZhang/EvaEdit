@@ -13,6 +13,7 @@ EMenu 1.0 components/EMenu.qml
 EMenuBar 1.0 components/EMenuBar.qml
 EDialogs 1.0 components/EDialogs.qml
 ResizeButton 1.0 components/ResizeButton.qml
+EAboutDialog 1.0 components/EAboutDialog.qml
 
 ESidebar 1.0 views/ESidebar.qml
 ESidePanel 1.0 views/ESidePanel.qml
